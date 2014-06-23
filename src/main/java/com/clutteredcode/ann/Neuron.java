@@ -1,6 +1,5 @@
 package com.clutteredcode.ann;
 
-import com.clutteredcode.ann.activation.ActivationFunction;
 import com.clutteredcode.ann.activation.ActivationType;
 
 /**
@@ -12,7 +11,6 @@ public class Neuron {
     protected double bias;
     protected double[] weights;
     protected ActivationType activationType;
-    protected ActivationFunction activationFunction;
 
     /**
      * Complete Constructor creates and {@code Neuron} instance with the specified parameters.
@@ -25,7 +23,6 @@ public class Neuron {
         this.bias = bias;
         this.weights = weights;
         this.activationType = activationType;
-        this.activationFunction = activationType.getFunction();
     }
 
     /**
@@ -35,7 +32,7 @@ public class Neuron {
      * @return The output.
      */
     public double fire(final double[] inputs) {
-        return activationFunction.activate(dotProduct(inputs));
+        return activationType.getFunction().activate(dotProduct(inputs));
     }
 
     /**

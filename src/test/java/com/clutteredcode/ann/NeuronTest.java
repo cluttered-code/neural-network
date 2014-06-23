@@ -1,6 +1,5 @@
 package com.clutteredcode.ann;
 
-import com.clutteredcode.ann.activation.ActivationFunction;
 import com.clutteredcode.ann.activation.ActivationType;
 import mockit.Mock;
 import mockit.MockUp;
@@ -21,14 +20,12 @@ public class NeuronTest {
     @Test
     public void testConstructor() {
         final ActivationType type = ActivationType.TAN_H;
-        final ActivationFunction function = type.getFunction();
         final double bias = 42.0;
         final double[] weights = new double[]{32.0, 64.0, 128.0};
 
         final Neuron neuron = new Neuron(type, bias, weights);
 
         assertEquals(type, neuron.activationType);
-        assertEquals(function, neuron.activationFunction);
         assertEquals(bias, neuron.bias);
         assertArrayEquals(weights, neuron.weights, 0.0);
     }
@@ -54,8 +51,8 @@ public class NeuronTest {
         assertEquals(expected, result);
     }
 
-    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     @Test
+    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     public void testDotProduct() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         final double bias = 38.0;
         final double[] weights = new double[] {83.4, 12.34, 34.68};
@@ -71,8 +68,8 @@ public class NeuronTest {
         assertEquals(2214.7093999999997, result);
     }
 
-    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     @Test
+    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     public void testDotProduct_NaN() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         final double bias = 38.0;
         final double[] weights = new double[] {83.4};
@@ -88,8 +85,8 @@ public class NeuronTest {
         assertEquals(Double.NaN, result);
     }
 
-    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     @Test(expected = IllegalArgumentException.class)
+    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     public void testDotProduct_SizeMismatch() throws Throwable {
         final double bias = 38.0;
         final double[] weights = new double[] {83.4, 12.34, 34.68};
