@@ -1,7 +1,5 @@
 package com.clutteredcode.ann.activation;
 
-import com.clutteredcode.ann.activation.ActivationFunction;
-import com.clutteredcode.ann.activation.ActivationType;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
