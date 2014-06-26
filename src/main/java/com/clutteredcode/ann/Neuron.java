@@ -32,22 +32,21 @@ public class Neuron {
      * @return The output.
      */
     public double fire(final double[] inputs) {
-        return activationType.getFunction().activate(dotProduct(inputs));
+        return activationType.getFunction().activate(bias + dotProduct(inputs));
     }
 
     /**
-     * Returns the dot product of the weights and inputs summed with the bias.
+     * Returns the dot product of the inputs and weights.
      *
      * @param inputs The inputs being fed to this {@code Neuron}.
-     * @return The dot product of the weights and inputs summed with the bias.
+     * @return The dot product of the inputs and weights.
      */
     private double dotProduct(final double[] inputs) {
         // Guard Clause: input and weight size mismatch
         if (inputs.length != weights.length)
             throw new IllegalArgumentException("inputs (" + inputs.length + ") and weights (" + weights.length + ") must have the same number of elements");
 
-        double sum = bias;
-
+        double sum = 0.0;
         for (int i = 0; i < inputs.length; ++i)
             sum += weights[i] * inputs[i];
 

@@ -1,5 +1,6 @@
 package com.clutteredcode.ann;
 
+import com.clutteredcode.ann.activation.ActivationFunction;
 import com.clutteredcode.ann.activation.ActivationType;
 import mockit.Mock;
 import mockit.MockUp;
@@ -32,29 +33,44 @@ public class NeuronTest {
 
     @Test
     public void testFire() {
-        final ActivationType type = ActivationType.SIGMOID;
-        final double fireOutput = 42.0;
-        final double expected = type.getFunction().activate(fireOutput);
+        final double bias = 78.54;
+        final double dotProductOutput = 42.0;
+        final double activationFunctionOutput = Math.PI;
 
-        final Neuron neuron = new Neuron(type, 78.0, new double[0]);
+        final Neuron neuron = new Neuron(ActivationType.SIGMOID, bias, new double[0]);
 
-        // Mock and invocation count for dotProduct
-        new MockUp<Neuron>() {
+        // Mock Activation function to validate inputs
+        final MockUp<ActivationFunction> af = new MockUp<ActivationFunction>() {
             @Mock(invocations = 1)
-            public double dotProduct(final double[] inputs) {
-                return fireOutput;
+            public double activate(final double input) {
+                assertEquals(bias + dotProductOutput, input);
+                return activationFunctionOutput;
             }
         };
 
-        final double result = neuron.fire(new double[0]);
+        // Mock ActivationType to return Mocked ActivationType
+        new MockUp<ActivationType>() {
+            @Mock(invocations = 1)
+            public ActivationFunction getFunction() {
+                return af.getMockInstance();
+            }
+        };
 
-        assertEquals(expected, result);
+        // Mock Neuron dotProduct
+        new MockUp<Neuron>() {
+            @Mock(invocations = 1)
+            public double dotProduct(final double[] inputs) {
+                return dotProductOutput;
+            }
+        };
+
+        assertEquals(activationFunctionOutput, neuron.fire(new double[0]));
     }
 
     @Test
     @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     public void testDotProduct() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final double bias = 38.0;
+        final double bias = Math.PI;
         final double[] weights = new double[] {83.4, 12.34, 34.68};
         final double[] inputs = new double[] {2.67, 29.55, 45.83};
 
@@ -65,7 +81,7 @@ public class NeuronTest {
         method.setAccessible(true);
         final double result = (double) method.invoke(neuron, inputs);
 
-        assertEquals(2214.7093999999997, result);
+        assertEquals(2176.7093999999997, result);
     }
 
     @Test
