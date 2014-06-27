@@ -34,9 +34,8 @@ public class FeedForwardLayerTest {
 
         final FeedForwardLayer layer = new FeedForwardLayer(neurons);
 
-        // Mock Neuron dotProduct
+        // Mock Neuron fire response
         new MockUp<Neuron>() {
-
             int count = 0;
 
             @Mock(invocations = 3)
@@ -48,7 +47,7 @@ public class FeedForwardLayerTest {
         final double[] outputs = layer.fire(new double[0]);
 
         for(int i = 0; i <neurons.size(); ++i) {
-            assertEquals(i+1.0, outputs[i]);
+            assertEquals(1.0+i, outputs[i]);
         }
     }
 }

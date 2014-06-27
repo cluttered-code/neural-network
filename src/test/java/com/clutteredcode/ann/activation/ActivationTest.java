@@ -7,7 +7,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * @author cluttered.code@gmail.com
  */
-public class ActivationTypeTest {
+public class ActivationTest {
 
     @Test
     public void testLinearActivationFunction() {
@@ -23,7 +23,7 @@ public class ActivationTypeTest {
     @Test
     public void testHyperbolicTangentActivationFunction() {
         final ActivationFunction af = ActivationType.TAN_H.getFunction();
-        final ActivationFunction expected = (final double input) -> Math.tanh(input);
+        final ActivationFunction expected = Math::tanh;
 
         assertEquals(expected.activate(-374.25), af.activate(-374.25));
         assertEquals(expected.activate(-25.687), af.activate(-25.687));
