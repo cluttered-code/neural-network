@@ -13,7 +13,7 @@ public class Neuron {
     protected ActivationType activationType;
 
     /**
-     * Complete Constructor creates and {@code Neuron} instance with the specified parameters.
+     * Complete Constructor creates a {@code Neuron} instance with the specified parameters.
      *
      * @param activationType Specifies the {@code ActivationFunction} used when firing this {@code Neuron}
      * @param bias           The bias used to offset the firing of this {@code Neuron}.
@@ -26,7 +26,7 @@ public class Neuron {
     }
 
     /**
-     * Returns the output of this {@code Neuron} when given the specified inputs.
+     * Returns the output of this {@code Neuron} with the specified inputs.
      *
      * @param inputs The inputs being fed to this {@code Neuron}.
      * @return The output.
