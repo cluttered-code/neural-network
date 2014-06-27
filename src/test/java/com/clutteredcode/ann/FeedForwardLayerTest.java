@@ -1,7 +1,6 @@
 package com.clutteredcode.ann;
 
 import com.clutteredcode.ann.activation.ActivationType;
-import junit.framework.Assert;
 import mockit.Mock;
 import mockit.MockUp;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.fail;
 
 /**
  * @author cluttered.code@gmail.com

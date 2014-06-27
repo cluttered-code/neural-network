@@ -1,7 +1,6 @@
 package com.clutteredcode.ann;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author cluttered.code@gmail.com
