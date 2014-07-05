@@ -29,17 +29,27 @@ public enum ActivationType {
     private static final ActivationFunction TAN_H_FUNC = Math::tanh;
 
     /**
+     * Returns a random {@code ActivationType}.
+     *
+     * @return A random {@code ActivationType}.
+     */
+    public static ActivationType getRandom() {
+        return values()[(int) (Math.random() * values().length)];
+    }
+
+    /**
      * Returns the {@link com.clutteredcode.ann.activation.ActivationFunction} associated with this {@code ActivationType}.
      *
      * @return The {@link com.clutteredcode.ann.activation.ActivationFunction}.
      */
     public ActivationFunction getFunction() {
-        if (this == TAN_H)
-            return TAN_H_FUNC;
-
-        if (this == SIGMOID)
-            return SIGMOID_FUNC;
-
-        return LINEAR_FUNC;
+        switch(this) {
+            case TAN_H:
+                return TAN_H_FUNC;
+            case SIGMOID:
+                return SIGMOID_FUNC;
+            default:
+                return LINEAR_FUNC;
+        }
     }
 }
