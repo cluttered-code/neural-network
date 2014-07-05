@@ -29,15 +29,6 @@ public enum ActivationType {
     private static final ActivationFunction TAN_H_FUNC = Math::tanh;
 
     /**
-     * Returns a random {@code ActivationType}.
-     *
-     * @return A random {@code ActivationType}.
-     */
-    public static ActivationType getRandom() {
-        return values()[(int) (Math.random() * values().length)];
-    }
-
-    /**
      * Returns the {@link com.clutteredcode.ann.activation.ActivationFunction} associated with this {@code ActivationType}.
      *
      * @return The {@link com.clutteredcode.ann.activation.ActivationFunction}.
@@ -51,5 +42,14 @@ public enum ActivationType {
             default:
                 return LINEAR_FUNC;
         }
+    }
+
+    /**
+     * Returns a random {@code ActivationType}.
+     *
+     * @return A random {@code ActivationType}.
+     */
+    public static ActivationType random() {
+        return values()[(int) (Math.random() * values().length)];
     }
 }
