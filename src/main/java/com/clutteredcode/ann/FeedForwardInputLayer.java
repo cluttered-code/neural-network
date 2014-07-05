@@ -15,6 +15,10 @@
  */
 package com.clutteredcode.ann;
 
+import org.hamcrest.internal.ArrayIterator;
+
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -41,7 +45,7 @@ public class FeedForwardInputLayer extends FeedForwardLayer {
         final double[] outputs = new double[neurons.size()];
 
         for(int i = 0; i < inputs.length; ++i)
-            outputs[i] = neurons.get(i).fire(new double[]{inputs[i]});
+            outputs[i] = neurons.get(i).fire(inputs[i]);
 
         return outputs;
     }

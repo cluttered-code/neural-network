@@ -16,28 +16,59 @@
 package com.clutteredcode.ann;
 
 import com.clutteredcode.ann.activation.ActivationType;
+import com.clutteredcode.ga.Genetic;
+
+import java.util.Random;
 
 /**
  * @author cluttered.code@gmail.com
  */
-public class Neuron {
+public class Neuron implements Genetic<Neuron> {
+
+    /* ******** Private Static Final Variables ******** */
+    private static final Random RANDOM = new Random();
 
     /* ******** Instance Variables ******** */
+    protected ActivationType activationType;
     protected double bias;
     protected double[] weights;
-    protected ActivationType activationType;
 
     /**
      * Complete Constructor creates a {@code Neuron} instance with the specified parameters.
      *
-     * @param activationType Specifies the {@code ActivationFunction} used when firing this {@code Neuron}
+     * @param activationType Specifies the {@code ActivationFunction} used when firing this {@code Neuron}.
      * @param bias           The bias used to offset the firing of this {@code Neuron}.
      * @param weights        The weights given to the inputs when firing this {@code Neuron}.
      */
     public Neuron(final ActivationType activationType, final double bias, final double[] weights) {
+        this(activationType, bias, weights, null);
+    }
+
+    /**
+     * Test Constructor creates a {@code Neuron} instance with the specified parameters and a seed.
+     *
+     * @param activationType Specifies the {@code ActivationFunction} used when firing this {@code Neuron}.
+     * @param bias           The bias used to offset the firing of this {@code Neuron}.
+     * @param weights        The weights given to the inputs when firing this {@code Neuron}.
+     * @param seed           The value used to seed the random number generator used by {@code Genetic} methods.
+     */
+    protected Neuron(final ActivationType activationType, final double bias, final double[] weights, final Long seed) {
+        this.activationType = activationType;
         this.bias = bias;
         this.weights = weights;
-        this.activationType = activationType;
+
+        if(seed != null)
+            RANDOM.setSeed(seed);
+    }
+
+    /**
+     * Returns the output of this {@code Neuron} with the specified input.
+     *
+     * @param input The input being fed to this {@code Neuron}.
+     * @return The output.
+     */
+    public double fire(final double input) {
+        return fire(new double[]{input});
     }
 
     /**
@@ -66,5 +97,29 @@ public class Neuron {
             sum += weights[i] * inputs[i];
 
         return sum;
+    }
+
+    @Override
+    public Neuron crossover(final Neuron partner) {
+        final ActivationType newActivationType = RANDOM.nextBoolean() ? activationType : partner.activationType;
+        final double newBias = RANDOM.nextBoolean() ? bias : partner.bias;
+
+        final double[] newWeights = new double[weights.length];
+        for(int i = 0; i < weights.length; ++i)
+            newWeights[i] = RANDOM.nextBoolean() ? weights[i] : partner.weights[i];
+
+        return new Neuron(newActivationType, newBias, newWeights);
+    }
+
+    @Override
+    public Neuron mutate(final double rate) {
+        final ActivationType newActivationType = RANDOM.nextDouble() < rate ? ActivationType.random() : activationType;
+        final double newBias = RANDOM.nextDouble() < rate ? RANDOM.nextDouble() : bias;
+
+        final double[] newWeights = new double[weights.length];
+        for(int i = 0; i < weights.length; ++i)
+            newWeights[i] = RANDOM.nextDouble() < rate ? RANDOM.nextDouble() : weights[i];
+
+        return new Neuron(newActivationType, newBias, newWeights);
     }
 }

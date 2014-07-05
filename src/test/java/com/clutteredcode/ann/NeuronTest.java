@@ -17,6 +17,7 @@ package com.clutteredcode.ann;
 
 import com.clutteredcode.ann.activation.ActivationFunction;
 import com.clutteredcode.ann.activation.ActivationType;
+import junit.framework.Assert;
 import mockit.Mock;
 import mockit.MockUp;
 import org.junit.Test;
@@ -48,6 +49,26 @@ public class NeuronTest {
 
     @Test
     public void testFire() {
+        final double input = 5738.873;
+        final double output = 674.87;
+
+        final Neuron neuron = new Neuron(ActivationType.random(), Math.PI, new double[0]);
+
+        new MockUp<Neuron>() {
+            @Mock(invocations = 1)
+            public double fire(final double[] inputs) {
+                assertEquals(1, inputs.length);
+                assertEquals(input, inputs[0]);
+                return output;
+            }
+        };
+
+        final double result = neuron.fire(input);
+        assertEquals(output, result);
+    }
+
+    @Test
+    public void testFireArray() {
         final double bias = 78.54;
         final double dotProductOutput = 42.0;
         final double activationFunctionOutput = Math.PI;
@@ -86,8 +107,8 @@ public class NeuronTest {
     @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     public void testDotProduct() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         final double bias = Math.PI;
-        final double[] weights = new double[] {83.4, 12.34, 34.68};
-        final double[] inputs = new double[] {2.67, 29.55, 45.83};
+        final double[] weights = new double[]{83.4, 12.34, 34.68};
+        final double[] inputs = new double[]{2.67, 29.55, 45.83};
 
         final Neuron neuron = new Neuron(ActivationType.LINEAR, bias, weights);
 
@@ -103,8 +124,8 @@ public class NeuronTest {
     @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     public void testDotProduct_NaN() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         final double bias = 38.0;
-        final double[] weights = new double[] {83.4};
-        final double[] inputs = new double[] {Double.NaN};
+        final double[] weights = new double[]{83.4};
+        final double[] inputs = new double[]{Double.NaN};
 
         final Neuron neuron = new Neuron(ActivationType.LINEAR, bias, weights);
 
@@ -120,8 +141,8 @@ public class NeuronTest {
     @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
     public void testDotProduct_SizeMismatch() throws Throwable {
         final double bias = 38.0;
-        final double[] weights = new double[] {83.4, 12.34, 34.68};
-        final double[] inputs = new double[] {2.67, 29.55};
+        final double[] weights = new double[]{83.4, 12.34, 34.68};
+        final double[] inputs = new double[]{2.67, 29.55};
 
         final Neuron neuron = new Neuron(ActivationType.LINEAR, bias, weights);
 
@@ -131,7 +152,7 @@ public class NeuronTest {
         try {
             method.invoke(neuron, inputs);
             fail();
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw e.getCause();
         }
     }
