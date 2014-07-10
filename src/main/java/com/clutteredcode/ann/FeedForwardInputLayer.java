@@ -15,10 +15,6 @@
  */
 package com.clutteredcode.ann;
 
-import org.hamcrest.internal.ArrayIterator;
-
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 /**

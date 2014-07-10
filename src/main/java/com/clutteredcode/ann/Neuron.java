@@ -25,8 +25,8 @@ import java.util.Random;
  */
 public class Neuron implements Genetic<Neuron> {
 
-    /* ******** Private Static Final Variables ******** */
-    private static final Random RANDOM = new Random();
+    /* ******** Protected Static Final Variables ******** */
+    protected static final Random RANDOM = new Random();
 
     /* ******** Instance Variables ******** */
     protected ActivationType activationType;
@@ -41,24 +41,9 @@ public class Neuron implements Genetic<Neuron> {
      * @param weights        The weights given to the inputs when firing this {@code Neuron}.
      */
     public Neuron(final ActivationType activationType, final double bias, final double[] weights) {
-        this(activationType, bias, weights, null);
-    }
-
-    /**
-     * Test Constructor creates a {@code Neuron} instance with the specified parameters and a seed.
-     *
-     * @param activationType Specifies the {@code ActivationFunction} used when firing this {@code Neuron}.
-     * @param bias           The bias used to offset the firing of this {@code Neuron}.
-     * @param weights        The weights given to the inputs when firing this {@code Neuron}.
-     * @param seed           The value used to seed the random number generator used by {@code Genetic} methods.
-     */
-    protected Neuron(final ActivationType activationType, final double bias, final double[] weights, final Long seed) {
         this.activationType = activationType;
         this.bias = bias;
         this.weights = weights;
-
-        if(seed != null)
-            RANDOM.setSeed(seed);
     }
 
     /**
