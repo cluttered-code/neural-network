@@ -16,6 +16,8 @@
 package com.clutteredcode.ga;
 
 import com.clutteredcode.ann.activation.ActivationType;
+import mockit.Mock;
+import mockit.MockUp;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -30,13 +32,19 @@ public class ActivationTypeTest {
 
     @Test
     public void testRandom() throws NoSuchFieldException, IllegalAccessException {
-        final Random testRandom = new Random(12345);
+        final double[] randoms = {0.25, 0.5, 0.75};
 
-        Field field = Math.class.getDeclaredField("randomNumberGenerator");
-        field.setAccessible(true);
-        field.set(null, testRandom);
+        new MockUp<Math>() {
+            int index = 0;
 
-        assertEquals(null, ActivationType.random());
+            @Mock(invocations = 3)
+            double random() {
+                return randoms[index++];
+            }
+        };
+
+        assertEquals(ActivationType.LINEAR, ActivationType.random());
+        assertEquals(ActivationType.SIGMOID, ActivationType.random());
+        assertEquals(ActivationType.TAN_H, ActivationType.random());
     }
-
 }

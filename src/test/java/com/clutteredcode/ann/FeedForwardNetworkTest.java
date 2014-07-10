@@ -64,7 +64,6 @@ public class FeedForwardNetworkTest {
         };
 
         final double[] outputs = network.fire(initial);
-
         assertEquals(5, outputs.length);
     }
 }
