@@ -15,14 +15,25 @@
  */
 package com.clutteredcode.ga;
 
+import com.clutteredcode.ann.Neuron;
+import com.clutteredcode.ann.activation.ActivationType;
 import org.junit.Test;
+
+import static org.junit.Assert.fail;
 
 /**
  * @author cluttered.code@gmail.com
  */
 public class NeuronTest {
 
-    @Test
+    //@Test
     public void testMutate() {
+        final ActivationType type = ActivationType.SIGMOID;
+        final double bias = 28.0;
+        final double[] weights = {42.0, 128.0};
+
+        final Neuron neuron = new Neuron(type, bias, weights);
+
+        fail("Test not implemented");
     }
 }
