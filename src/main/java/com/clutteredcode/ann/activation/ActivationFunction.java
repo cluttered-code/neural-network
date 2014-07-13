@@ -24,7 +24,7 @@ public interface ActivationFunction {
      * Neuron activation function.
      *
      * @param input The input value.
-     * @return The value computed by the activation function.
+     * @return The value computed by the function.
      */
-    public double activate(final double input);
+    public double evaluate(final double input);
 }

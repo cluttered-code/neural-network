@@ -63,7 +63,7 @@ public class Neuron implements Genetic<Neuron> {
      * @return The output.
      */
     public double fire(final double[] inputs) {
-        return activationType.getFunction().activate(bias + dotProduct(inputs));
+        return activationType.getFunction().evaluate(bias + dotProduct(inputs));
     }
 
     /**
@@ -90,7 +90,7 @@ public class Neuron implements Genetic<Neuron> {
         final double newBias = RANDOM.nextBoolean() ? bias : partner.bias;
 
         final double[] newWeights = new double[weights.length];
-        for(int i = 0; i < weights.length; ++i)
+        for (int i = 0; i < weights.length; ++i)
             newWeights[i] = RANDOM.nextBoolean() ? weights[i] : partner.weights[i];
 
         return new Neuron(newActivationType, newBias, newWeights);
@@ -102,7 +102,7 @@ public class Neuron implements Genetic<Neuron> {
         final double newBias = RANDOM.nextDouble() < rate ? RANDOM.nextDouble() : bias;
 
         final double[] newWeights = new double[weights.length];
-        for(int i = 0; i < weights.length; ++i)
+        for (int i = 0; i < weights.length; ++i)
             newWeights[i] = RANDOM.nextDouble() < rate ? RANDOM.nextDouble() : weights[i];
 
         return new Neuron(newActivationType, newBias, newWeights);

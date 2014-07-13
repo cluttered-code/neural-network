@@ -23,10 +23,20 @@ public enum ActivationType {
     SIGMOID,
     TAN_H;
 
-    // Singleton lambda ActivationFunction objects
+    // lambda activations
     private static final ActivationFunction LINEAR_FUNC = input -> input;
     private static final ActivationFunction SIGMOID_FUNC = input -> 1 / (1 + Math.exp(-input));
     private static final ActivationFunction TAN_H_FUNC = Math::tanh;
+
+    // lambda derivatives
+    private static final ActivationFunction LINEAR_DER = input -> {
+        throw new UnsupportedOperationException("back propagation doesn't support the linear function");
+    };
+    private static final ActivationFunction SIGMOID_DER = input -> {
+        final double sigmoid = SIGMOID_FUNC.evaluate(input);
+        return sigmoid * (1 - sigmoid);
+    };
+    private static final ActivationFunction TAN_H_DER = input -> 1 - Math.pow(Math.tanh(input), 2);
 
     /**
      * Returns the {@link com.clutteredcode.ann.activation.ActivationFunction} associated with this {@code ActivationType}.
@@ -34,13 +44,29 @@ public enum ActivationType {
      * @return The {@link com.clutteredcode.ann.activation.ActivationFunction}.
      */
     public ActivationFunction getFunction() {
-        switch(this) {
+        switch (this) {
             case TAN_H:
                 return TAN_H_FUNC;
             case SIGMOID:
                 return SIGMOID_FUNC;
             default:
                 return LINEAR_FUNC;
+        }
+    }
+
+    /**
+     * Returns the {@link com.clutteredcode.ann.activation.ActivationFunction} derivative associated with this {@code ActivationType}.
+     *
+     * @return The {@link com.clutteredcode.ann.activation.ActivationFunction} derivative.
+     */
+    public ActivationFunction getDerivative() {
+        switch (this) {
+            case TAN_H:
+                return TAN_H_DER;
+            case SIGMOID:
+                return SIGMOID_DER;
+            default:
+                return LINEAR_DER;
         }
     }
 

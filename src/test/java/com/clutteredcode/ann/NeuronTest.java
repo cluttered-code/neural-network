@@ -78,7 +78,7 @@ public class NeuronTest {
         // Mock Activation function to validate inputs
         final MockUp<ActivationFunction> af = new MockUp<ActivationFunction>() {
             @Mock(invocations = 1)
-            public double activate(final double input) {
+            public double evaluate(final double input) {
                 assertEquals(bias + dotProductOutput, input);
                 return activationFunctionOutput;
             }

@@ -40,7 +40,7 @@ public class FeedForwardInputLayer extends FeedForwardLayer {
     public double[] fire(final double[] inputs) {
         final double[] outputs = new double[neurons.size()];
 
-        for(int i = 0; i < inputs.length; ++i)
+        for (int i = 0; i < inputs.length; ++i)
             outputs[i] = neurons.get(i).fire(inputs[i]);
 
         return outputs;
