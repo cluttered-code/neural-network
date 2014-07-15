@@ -37,7 +37,7 @@ public class FeedForwardNetwork {
     }
 
     /**
-     * Fire each {@link com.clutteredcode.ann.FeedForwardLayer}, piping the output of the previous into the next.
+     * Fire each {@link com.clutteredcode.ann.FeedForwardLayer}, piping the output of the previous layer into the next.
      *
      * @param inputs The inputs to be put into the first {@link com.clutteredcode.ann.FeedForwardLayer}.
      * @return The outputs of the last {@link com.clutteredcode.ann.FeedForwardLayer}.
