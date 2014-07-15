@@ -47,10 +47,8 @@ public class FeedForwardNetwork {
     }
 
     protected double[] fireAndCollectOutputs(final double[] inputs, List<double[]> layerOutputs) {
-        layerOutputs.add(inputs);
-
         for (final FeedForwardLayer layer : layers) {
-            final double[] input = layerOutputs.get(layerOutputs.size() - 1);
+            final double[] input = layerOutputs.isEmpty() ? inputs : layerOutputs.get(layerOutputs.size() - 1);
             final double[] output = layer.fire(input);
             layerOutputs.add(output);
         }
