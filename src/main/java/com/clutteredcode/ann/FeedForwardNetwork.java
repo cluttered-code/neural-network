@@ -36,6 +36,28 @@ public class FeedForwardNetwork {
         this.layers = layers;
     }
 
+    /**
+     * Fire each {@link com.clutteredcode.ann.FeedForwardLayer}, piping the output of the previous into the next.
+     *
+     * @param inputs The inputs to be put into the first {@link com.clutteredcode.ann.FeedForwardLayer}.
+     * @return The outputs of the last {@link com.clutteredcode.ann.FeedForwardLayer}.
+     */
+    public double[] fire(final double[] inputs) {
+        return fireAndCollectOutputs(inputs, new ArrayList<>());
+    }
+
+    protected double[] fireAndCollectOutputs(final double[] inputs, List<double[]> layerOutputs) {
+        layerOutputs.add(inputs);
+
+        for (final FeedForwardLayer layer : layers) {
+            final double[] input = layerOutputs.get(layerOutputs.size() - 1);
+            final double[] output = layer.fire(input);
+            layerOutputs.add(output);
+        }
+
+        return layerOutputs.get(layerOutputs.size() - 1);
+    }
+
     public void backPropagationTraining(final double[][] inputs, final double[][] expectedOutputs) {
         // Guard Clause: input and output size mismatch
         if (inputs.length != expectedOutputs.length)
@@ -70,27 +92,5 @@ public class FeedForwardNetwork {
 
             }
         }
-    }
-
-    /**
-     * Fire each {@link com.clutteredcode.ann.FeedForwardLayer}, piping the output of the previous into the next.
-     *
-     * @param inputs The inputs to be put into the first {@link com.clutteredcode.ann.FeedForwardLayer}.
-     * @return The outputs of the last {@link com.clutteredcode.ann.FeedForwardLayer}.
-     */
-    public double[] fire(final double[] inputs) {
-        return fireAndCollectOutputs(inputs, new ArrayList<>());
-    }
-
-    protected double[] fireAndCollectOutputs(final double[] inputs, List<double[]> layerOutputs) {
-        layerOutputs.add(inputs);
-
-        for (final FeedForwardLayer layer : layers) {
-            final double[] input = layerOutputs.get(layerOutputs.size() - 1);
-            final double[] output = layer.fire(input);
-            layerOutputs.add(output);
-        }
-
-        return layerOutputs.get(layerOutputs.size() - 1);
     }
 }
