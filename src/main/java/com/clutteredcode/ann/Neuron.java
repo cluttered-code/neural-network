@@ -19,6 +19,7 @@ import com.clutteredcode.ann.activation.ActivationType;
 import com.clutteredcode.ga.Genetic;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 /**
  * @author cluttered.code@gmail.com
@@ -77,11 +78,12 @@ public class Neuron implements Genetic<Neuron> {
         if (inputs.length != weights.length)
             throw new IllegalArgumentException("inputs (" + inputs.length + ") and weights (" + weights.length + ") must have the same number of elements");
 
-        double sum = 0.0;
-        for (int i = 0; i < inputs.length; ++i)
-            sum += weights[i] * inputs[i];
+        final double dotProduct = IntStream.range(0, weights.length)
+                .parallel()
+                .mapToDouble(i -> weights[i] * inputs[i])
+                .reduce(0, Double::sum);
 
-        return sum;
+        return dotProduct;
     }
 
     @Override
