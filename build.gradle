@@ -8,8 +8,6 @@ version = '1.0.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 project.ext {
-    guavaVersion = '18.0'
-    gsonVersion = '2.3'
     jmockitVersion = '1.13'
     junitVersion = '4.11'
 }
@@ -19,9 +17,6 @@ repositories {
 }
 
 dependencies {
-    compile "com.google.guava:guava:${guavaVersion}"
-    compile "com.google.code.gson:gson:${gsonVersion}"
-
     testCompile "org.jmockit:jmockit:${jmockitVersion}"
     testCompile "junit:junit:${junitVersion}"
 }
