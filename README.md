@@ -10,3 +10,5 @@
 License: Apache License Version 2.0
 
 Java: 1.8
+
+Run Tests with code coverage: `./gradlew clean cleanTest test jacocoTestReport`

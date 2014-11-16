@@ -15,96 +15,77 @@
  */
 package com.clutteredcode.ann;
 
+import com.clutteredcode.ann.activation.ActivationFunction;
 import com.clutteredcode.ann.activation.ActivationType;
-import com.clutteredcode.ga.Genetic;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author cluttered.code@gmail.com
  */
-public class Neuron implements Genetic<Neuron> {
+public class Neuron {
 
-    /* ******** Protected Static Final Variables ******** */
-    protected static final Random RANDOM = new Random();
+    public static final int MINIMUM_BOUND = -100;
+    public static final int MAXIMUM_BOUND = 100;
 
-    /* ******** Instance Variables ******** */
-    protected ActivationType activationType;
-    protected double bias;
-    protected double[] weights;
+    private final Random random;
 
-    /**
-     * Complete Constructor creates a {@code Neuron} instance with the specified parameters.
-     *
-     * @param activationType Specifies the {@code ActivationFunction} used when firing this {@code Neuron}.
-     * @param bias           The bias used to offset the firing of this {@code Neuron}.
-     * @param weights        The weights given to the inputs when firing this {@code Neuron}.
-     */
-    public Neuron(final ActivationType activationType, final double bias, final double[] weights) {
+    private final ActivationType activationType;
+    private final double bias;
+    private final List<Double> weights;
+
+    public Neuron(final ActivationType activationType, final int numInputs) {
+        this.activationType = activationType;
+        random = new Random();
+
+        bias = randomBoundedDouble();
+
+        weights = IntStream.range(0, numInputs)
+                .parallel()
+                .mapToDouble(i -> randomBoundedDouble())
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    public Neuron(final ActivationType activationType, final double bias, final List<Double> weights) {
         this.activationType = activationType;
         this.bias = bias;
         this.weights = weights;
+        random = new Random();
     }
 
-    /**
-     * Returns the output of this {@code Neuron} with the specified input.
-     *
-     * @param input The input being fed to this {@code Neuron}.
-     * @return The output.
-     */
+    private double randomBoundedDouble() {
+        return random.nextDouble() * (MAXIMUM_BOUND - MINIMUM_BOUND) + MINIMUM_BOUND;
+    }
+
     public double fire(final double input) {
-        return fire(new double[]{input});
+        final List<Double> inputs = Collections.singletonList(input);
+        final double result = fire(inputs);
+
+        return result;
     }
 
-    /**
-     * Returns the output of this {@code Neuron} with the specified inputs.
-     *
-     * @param inputs The inputs being fed to this {@code Neuron}.
-     * @return The output.
-     */
-    public double fire(final double[] inputs) {
-        return activationType.getFunction().evaluate(bias + dotProduct(inputs));
+    public double fire(final List<Double> inputs) {
+        final double biasDotProduct = dotProductWithWeights(inputs) - bias;
+        final ActivationFunction activationFunction = activationType.getActivationFunction();
+        final double result = activationFunction.evaluate(biasDotProduct);
+
+        return result;
     }
 
-    /**
-     * Returns the dot product of the inputs and weights.
-     *
-     * @param inputs The inputs being fed to this {@code Neuron}.
-     * @return The dot product of the inputs and weights.
-     */
-    private double dotProduct(final double[] inputs) {
-        // Guard Clause: input and weight size mismatch
-        if (inputs.length != weights.length)
-            throw new IllegalArgumentException("inputs (" + inputs.length + ") and weights (" + weights.length + ") must have the same number of elements");
+    private double dotProductWithWeights(final List<Double> inputs) {
+        if (inputs.size() != weights.size())
+            throw new IllegalArgumentException("inputs (" + inputs.size() + ") and weights (" + weights.size() + ") must have the same number of elements");
 
-        double sum = 0.0;
-        for (int i = 0; i < inputs.length; ++i)
-            sum += weights[i] * inputs[i];
+        final double dotProduct = IntStream.range(0, weights.size())
+                .parallel()
+                .mapToDouble(i -> weights.get(i) * inputs.get(i))
+                .sum();
 
-        return sum;
-    }
-
-    @Override
-    public Neuron crossover(final Neuron partner) {
-        final ActivationType newActivationType = RANDOM.nextBoolean() ? activationType : partner.activationType;
-        final double newBias = RANDOM.nextBoolean() ? bias : partner.bias;
-
-        final double[] newWeights = new double[weights.length];
-        for (int i = 0; i < weights.length; ++i)
-            newWeights[i] = RANDOM.nextBoolean() ? weights[i] : partner.weights[i];
-
-        return new Neuron(newActivationType, newBias, newWeights);
-    }
-
-    @Override
-    public Neuron mutate(final double rate) {
-        final ActivationType newActivationType = RANDOM.nextDouble() < rate ? ActivationType.random() : activationType;
-        final double newBias = RANDOM.nextDouble() < rate ? RANDOM.nextDouble() : bias;
-
-        final double[] newWeights = new double[weights.length];
-        for (int i = 0; i < weights.length; ++i)
-            newWeights[i] = RANDOM.nextDouble() < rate ? RANDOM.nextDouble() : weights[i];
-
-        return new Neuron(newActivationType, newBias, newWeights);
+        return dotProduct;
     }
 }

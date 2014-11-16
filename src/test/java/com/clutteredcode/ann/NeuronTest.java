@@ -17,143 +17,136 @@ package com.clutteredcode.ann;
 
 import com.clutteredcode.ann.activation.ActivationFunction;
 import com.clutteredcode.ann.activation.ActivationType;
-import junit.framework.Assert;
-import mockit.Mock;
-import mockit.MockUp;
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.Tested;
 import org.junit.Test;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.*;
 
-import static junit.framework.Assert.fail;
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
+import static junit.framework.TestCase.assertNotNull;
+import static mockit.Deencapsulation.getField;
+import static mockit.Deencapsulation.invoke;
+import static mockit.Deencapsulation.setField;
 
 /**
  * @author cluttered.code@gmail.com
  */
 public class NeuronTest {
 
+    @Tested
+    @SuppressWarnings("unused")
+    private Neuron neuron;
+
+    @Injectable
+    @SuppressWarnings("unused")
+    private final ActivationType activationType = ActivationType.LINEAR;
+
+    @Injectable
+    @SuppressWarnings("unused")
+    private final double bias = 42.0;
+
+    @Injectable
+    @SuppressWarnings("unused")
+    private List<Double> weights;
+
     @Test
-    public void testConstructor() {
-        final ActivationType type = ActivationType.TAN_H;
-        final double bias = 42.0;
-        final double[] weights = new double[]{32.0, 64.0, 128.0};
+    public void testFullConstructor() {
+        final ActivationType actualActivationType = getField(neuron, "activationType");
+        final double actualBias = getField(neuron, "bias");
+        final List<Double> actualWeights = getField(neuron, "weights");
 
-        final Neuron neuron = new Neuron(type, bias, weights);
-
-        assertEquals(type, neuron.activationType);
-        assertEquals(bias, neuron.bias);
-        assertArrayEquals(weights, neuron.weights, 0.0);
+        assertNotNull(neuron);
+        assertEquals(actualActivationType, actualActivationType);
+        assertEquals(bias, actualBias);
+        assertEquals(weights, actualWeights);
     }
 
     @Test
-    public void testFire() {
-        final double input = 5738.873;
-        final double output = 674.87;
+    public void testGeneratingConstructor() {
+        final int numInputs = 5;
+        final Neuron localNeuron = new Neuron(activationType, numInputs);
+        final List<Double> weights = getField(localNeuron, "weights");
 
-        final Neuron neuron = new Neuron(ActivationType.random(), Math.PI, new double[0]);
-
-        new MockUp<Neuron>() {
-            @Mock(invocations = 1)
-            public double fire(final double[] inputs) {
-                assertEquals(1, inputs.length);
-                assertEquals(input, inputs[0]);
-                return output;
-            }
-        };
-
-        final double result = neuron.fire(input);
-        assertEquals(output, result);
+        assertEquals(numInputs, weights.size());
     }
 
     @Test
-    public void testFireArray() {
-        final double bias = 78.54;
-        final double dotProductOutput = 42.0;
-        final double activationFunctionOutput = Math.PI;
+    public void testFireWithDouble(@Mocked @SuppressWarnings("unused") final Collections collection, @Mocked final List<Double> inputs) {
+        final double input = 42.0;
 
-        final Neuron neuron = new Neuron(ActivationType.SIGMOID, bias, new double[0]);
+        new Expectations(neuron) {{
+            Collections.singletonList(input); times = 1; result = inputs;
+            neuron.fire(inputs); times = 1;
+        }};
 
-        // Mock Activation function to validate inputs
-        final MockUp<ActivationFunction> af = new MockUp<ActivationFunction>() {
-            @Mock(invocations = 1)
-            public double evaluate(final double input) {
-                assertEquals(bias + dotProductOutput, input);
-                return activationFunctionOutput;
-            }
-        };
-
-        // Mock ActivationType to return Mocked ActivationType
-        new MockUp<ActivationType>() {
-            @Mock(invocations = 1)
-            public ActivationFunction getFunction() {
-                return af.getMockInstance();
-            }
-        };
-
-        // Mock Neuron dotProduct
-        new MockUp<Neuron>() {
-            @Mock(invocations = 1)
-            public double dotProduct(final double[] inputs) {
-                return dotProductOutput;
-            }
-        };
-
-        assertEquals(activationFunctionOutput, neuron.fire(new double[0]));
+        neuron.fire(input);
     }
 
     @Test
-    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
-    public void testDotProduct() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final double bias = Math.PI;
-        final double[] weights = new double[]{83.4, 12.34, 34.68};
-        final double[] inputs = new double[]{2.67, 29.55, 45.83};
+    public void testFireWithList() {
+        final List<Double> inputs = Arrays.asList(42.0);
+        final double dotProduct = 2525.0;
+        final double expected = 12345.0;
+        final ActivationFunction linear = ActivationType.LINEAR.getActivationFunction();
 
-        final Neuron neuron = new Neuron(ActivationType.LINEAR, bias, weights);
+        new Expectations(neuron) {{
+            invoke(neuron, "dotProductWithWeights", inputs); times = 1; result = dotProduct;
+            activationType.getActivationFunction(); times = 1; result = linear;
+            linear.evaluate(dotProduct - bias); times = 1; result = expected;
+        }};
 
-        // Call private method neuron.dotProduct(double[])
-        final Method method = Neuron.class.getDeclaredMethod("dotProduct", double[].class);
-        method.setAccessible(true);
-        final double result = (double) method.invoke(neuron, inputs);
+        final double actual = neuron.fire(inputs);
 
-        assertEquals(2176.7093999999997, result);
+        assertEquals(expected, actual);
     }
 
     @Test
-    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
-    public void testDotProduct_NaN() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final double bias = 38.0;
-        final double[] weights = new double[]{83.4};
-        final double[] inputs = new double[]{Double.NaN};
+    public void testDotProductWithWeights() {
+        final List<Double> localWeights = Arrays.asList(83.4, 12.34, 34.68);
+        final List<Double> inputs = Arrays.asList(2.67, 29.55, 45.83);
+        final double expected = 2176.7093999999997;
 
-        final Neuron neuron = new Neuron(ActivationType.LINEAR, bias, weights);
+        setField(neuron, "weights", localWeights);
 
-        // Call private method neuron.dotProduct(double[])
-        final Method method = Neuron.class.getDeclaredMethod("dotProduct", double[].class);
-        method.setAccessible(true);
-        final double result = (double) method.invoke(neuron, inputs);
+        final double result = invoke(neuron, "dotProductWithWeights", inputs);
 
-        assertEquals(Double.NaN, result);
+        assertEquals(expected, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @SuppressWarnings("PrimitiveArrayArgumentToVariableArgMethod")
-    public void testDotProduct_SizeMismatch() throws Throwable {
-        final double bias = 38.0;
-        final double[] weights = new double[]{83.4, 12.34, 34.68};
-        final double[] inputs = new double[]{2.67, 29.55};
+    public void testDotProductWithWeights_Exception() {
+        final List<Double> localWeights = Arrays.asList(83.4);
+        final List<Double> inputs = Arrays.asList(2.67, 29.55, 45.83);
 
-        final Neuron neuron = new Neuron(ActivationType.LINEAR, bias, weights);
+        setField(neuron, "weights", localWeights);
 
-        // Call private method neuron.dotProduct(double[])
-        final Method method = Neuron.class.getDeclaredMethod("dotProduct", double[].class);
-        method.setAccessible(true);
-        try {
-            method.invoke(neuron, inputs);
-            fail();
-        } catch (Exception e) {
-            throw e.getCause();
-        }
+        invoke(neuron, "dotProductWithWeights", inputs);
+    }
+
+    @Test
+    public void testBoundedRandom_Minimum(@Mocked final Random random) {
+        setField(neuron, "random", random);
+
+        new Expectations() {{
+            random.nextDouble(); times = 1; result = 0.0;
+        }};
+
+        final double actual = invoke(neuron, "randomBoundedDouble");
+        assertEquals((double) Neuron.MINIMUM_BOUND, actual);
+    }
+
+    @Test
+    public void testBoundedRandom_Maximum(@Mocked final Random random) {
+        setField(neuron, "random", random);
+
+        new Expectations() {{
+            random.nextDouble(); times = 1; result = 0.999999999999999999999999;
+        }};
+
+        final double actual = invoke(neuron, "randomBoundedDouble");
+        assertEquals((double) Neuron.MAXIMUM_BOUND, actual);
     }
 }

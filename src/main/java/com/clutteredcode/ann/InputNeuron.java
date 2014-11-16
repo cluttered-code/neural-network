@@ -13,27 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.clutteredcode.ga;
+package com.clutteredcode.ann;
 
-import com.clutteredcode.ann.Neuron;
 import com.clutteredcode.ann.activation.ActivationType;
-import org.junit.Test;
 
-import static org.junit.Assert.fail;
+import java.util.Collections;
 
 /**
  * @author cluttered.code@gmail.com
  */
-public class NeuronTest {
+public class InputNeuron extends Neuron {
 
-    //@Test
-    public void testMutate() {
-        final ActivationType type = ActivationType.SIGMOID;
-        final double bias = 28.0;
-        final double[] weights = {42.0, 128.0};
-
-        final Neuron neuron = new Neuron(type, bias, weights);
-
-        fail("Test not implemented");
+    public InputNeuron() {
+        super(ActivationType.LINEAR, 0.0, Collections.singletonList(1.0));
     }
 }

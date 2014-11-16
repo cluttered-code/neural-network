@@ -13,17 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.clutteredcode.ga;
+package com.clutteredcode.ann.feedforward;
+
+import com.clutteredcode.ann.Neuron;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author cluttered.code@gmail.com
  */
-public interface GeneticIndividual extends Genetic {
+public class Layer {
 
-    /**
-     * Returns the calculated fitness of this {@code GeneticIndividual}.
-     *
-     * @return The fitness.
-     */
-    public double fitness();
+    protected List<? extends Neuron> neurons;
+
+    public Layer(final List<? extends Neuron> neurons) {
+        this.neurons = neurons;
+    }
+
+    public List<Double> fire(final List<Double> inputs) {
+        return neurons.stream()
+                .map(neuron -> neuron.fire(inputs))
+                .collect(Collectors.toList());
+    }
 }

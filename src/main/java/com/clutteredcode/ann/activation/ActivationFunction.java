@@ -16,15 +16,9 @@
 package com.clutteredcode.ann.activation;
 
 /**
- * @author cluttered.code@gmail.com
+ * @author david.clutter@greyrocksoft.com
  */
 public interface ActivationFunction {
 
-    /**
-     * Neuron activation function.
-     *
-     * @param input The input value.
-     * @return The value computed by the function.
-     */
     public double evaluate(final double input);
 }

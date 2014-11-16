@@ -13,38 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.clutteredcode.ga;
+package com.clutteredcode.ann;
 
 import com.clutteredcode.ann.activation.ActivationType;
-import mockit.Mock;
-import mockit.MockUp;
+import mockit.Tested;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.util.Random;
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static mockit.Deencapsulation.getField;
 
 /**
  * @author cluttered.code@gmail.com
  */
-public class ActivationTypeTest {
+public class InputNeuronTest {
+
+    @Tested
+    @SuppressWarnings("unused")
+    private InputNeuron inputNeuron;
 
     @Test
-    public void testRandom() throws NoSuchFieldException, IllegalAccessException {
-        final double[] randoms = {0.25, 0.5, 0.75};
+    public void testConstructor() {
+        final ActivationType activationType = getField(inputNeuron, "activationType");
+        final double bias = getField(inputNeuron, "bias");
+        final List<Double> weights = getField(inputNeuron, "weights");
 
-        new MockUp<Math>() {
-            int index = 0;
-
-            @Mock(invocations = 3)
-            double random() {
-                return randoms[index++];
-            }
-        };
-
-        assertEquals(ActivationType.LINEAR, ActivationType.random());
-        assertEquals(ActivationType.SIGMOID, ActivationType.random());
-        assertEquals(ActivationType.TAN_H, ActivationType.random());
+        assertEquals(ActivationType.LINEAR, activationType);
+        assertEquals(0.0, bias);
+        assertEquals(Collections.singletonList(1.0), weights);
     }
 }
