@@ -28,14 +28,13 @@ public enum ActivationType {
     private static final ActivationFunction TAN_H_FUNCTION = Math::tanh;
 
     public ActivationFunction getActivationFunction() {
-        switch (this) {
-            case TAN_H:
-                return TAN_H_FUNCTION;
-            case SIGMOID:
-                return SIGMOID_FUNCTION;
-            default:
-                return LINEAR_FUNCTION;
-        }
+        if (this == TAN_H)
+            return TAN_H_FUNCTION;
+
+        if (this == SIGMOID)
+            return SIGMOID_FUNCTION;
+
+        return LINEAR_FUNCTION;
     }
 
     public static ActivationType random() {
