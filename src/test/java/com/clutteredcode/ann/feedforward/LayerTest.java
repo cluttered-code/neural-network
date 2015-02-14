@@ -1,18 +1,3 @@
-/**
- * (C) Copyright 2014 David Clutter (cluttered.code@gmail.com).
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.clutteredcode.ann.feedforward;
 
 import com.clutteredcode.ann.InputNeuron;
@@ -27,10 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static mockit.Deencapsulation.newInstance;
 import static mockit.Deencapsulation.setField;
 
 /**
- * @author cluttered.code@gmail.com
+ * @author David Clutter
  */
 public class LayerTest {
 
@@ -55,5 +41,32 @@ public class LayerTest {
 
         List<Double> results = layer.fire(inputs);
         assertEquals(inputs, results);
+    }
+
+    @Test
+    public void testMutate(@Mocked final Neuron neuron) {
+        final double rate = 0.42;
+        final List<Neuron> localNeurons = Arrays.asList(neuron, neuron, neuron);
+        setField(layer, "neurons", localNeurons);
+
+        new Expectations() {{
+            neuron.mutate(rate); times = localNeurons.size();
+        }};
+
+        layer.mutate(rate);
+    }
+
+    @Test
+    public void testCrossover(@Mocked final Neuron neuron) {
+        final List<Neuron> localNeurons = Arrays.asList(neuron, neuron, neuron);
+        setField(layer, "neurons", localNeurons);
+
+        final Layer mate = newInstance(Layer.class, localNeurons);
+
+        new Expectations() {{
+            neuron.crossover(neuron); times = localNeurons.size();
+        }};
+
+        layer.crossover(mate);
     }
 }

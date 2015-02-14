@@ -9,8 +9,8 @@
 
 [ ![Codeship Status for cluttered-code/neural-network](https://codeship.com/projects/7f6c3c80-5369-0132-e5b8-4ac7d15cf06b/status)](https://codeship.com/projects/48936)
 
+Java: 1.8
 License: Apache License Version 2.0
 
-Java: 1.8
-
-Run Tests with code coverage: `./gradlew clean cleanTest test jacocoTestReport`
+Run Tests with code coverage:
+```./gradlew clean cleanTest test jacocoTestReport```

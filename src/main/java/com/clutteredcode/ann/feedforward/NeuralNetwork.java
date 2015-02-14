@@ -1,32 +1,23 @@
-/**
- * (C) Copyright 2014 David Clutter (cluttered.code@gmail.com).
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.clutteredcode.ann.feedforward;
+
+import com.clutteredcode.ga.GeneticElement;
 
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
- * @author cluttered.code@gmail.com
+ * @author David Clutter
  */
-public class NeuralNetwork {
+public class NeuralNetwork implements GeneticElement<NeuralNetwork> {
 
     private List<Layer> layers;
 
     public NeuralNetwork(final List<Layer> layers) {
+        if(!(layers.get(0) instanceof InputLayer))
+            throw new IllegalArgumentException("First layer in network must be an input layer");
         this.layers = layers;
     }
 
@@ -39,5 +30,33 @@ public class NeuralNetwork {
         }
 
         return layerOutputs;
+    }
+
+    @Override
+    public NeuralNetwork mutate(double rate) {
+        final List<Layer> mutatedLayers = IntStream.range(0, layers.size())
+                .mapToObj(i -> {
+                    if (i == 0) {
+                        return layers.get(i);
+                    } else return layers.get(i).mutate(rate);
+                })
+                .collect(Collectors.toList());
+        final NeuralNetwork network = new NeuralNetwork(mutatedLayers);
+
+        return network;
+    }
+
+    @Override
+    public NeuralNetwork crossover(final NeuralNetwork mate) {
+        final List<Layer> crossoverLayers = IntStream.range(0, layers.size())
+                .mapToObj(i -> {
+                    if (i == 0) {
+                        return layers.get(i);
+                    } else return layers.get(i).crossover(mate.layers.get(i));
+                })
+                .collect(Collectors.toList());
+        final NeuralNetwork network = new NeuralNetwork(crossoverLayers);
+
+        return network;
     }
 }
