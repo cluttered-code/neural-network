@@ -6,9 +6,8 @@
 | |\  |  __/ |_| | | | (_| | | | |\  |  __/ |_ \ V  V / (_) | |  |   <
 |_| \_|\___|\__,_|_|  \__,_|_| |_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\
 ```
+[![Build Status](https://travis-ci.org/cluttered-code/neural-network.svg?branch=master)](https://travis-ci.org/cluttered-code/neural-network)
 [![Coverage Status](https://coveralls.io/repos/cluttered-code/neural-network/badge.png)](https://coveralls.io/r/cluttered-code/neural-network)
-
-[ ![Codeship Status for cluttered-code/neural-network](https://codeship.com/projects/7f6c3c80-5369-0132-e5b8-4ac7d15cf06b/status)](https://codeship.com/projects/48936)
 
 Java: 1.8
 
