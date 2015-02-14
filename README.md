@@ -10,6 +10,6 @@
 [![License](https://img.shields.io/badge/license-APLv2-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 [![Build Status](https://travis-ci.org/cluttered-code/neural-network.svg?branch=master)](https://travis-ci.org/cluttered-code/neural-network)
-[![Coverage Status](https://coveralls.io/repos/cluttered-code/neural-network/badge.png)](https://coveralls.io/r/cluttered-code/neural-network)
+[![Coverage Status](https://coveralls.io/repos/cluttered-code/neural-network/badge.svg?branch=master)](https://coveralls.io/r/cluttered-code/neural-network?branch=master)
 
 Run Tests with code coverage: `./gradlew clean cleanTest jacocoRootReport`
