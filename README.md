@@ -12,5 +12,4 @@
 [![Build Status](https://travis-ci.org/cluttered-code/neural-network.svg?branch=master)](https://travis-ci.org/cluttered-code/neural-network)
 [![Coverage Status](https://coveralls.io/repos/cluttered-code/neural-network/badge.png)](https://coveralls.io/r/cluttered-code/neural-network)
 
-Run Tests with code coverage:
-```./gradlew clean cleanTest jacocoRootReport```
+Run Tests with code coverage: `./gradlew clean cleanTest jacocoRootReport`
