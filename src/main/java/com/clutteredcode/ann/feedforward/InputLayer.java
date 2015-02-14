@@ -1,18 +1,3 @@
-/**
- * (C) Copyright 2014 David Clutter (cluttered.code@gmail.com).
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.clutteredcode.ann.feedforward;
 
 import com.clutteredcode.ann.InputNeuron;
@@ -23,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * @author cluttered.code@gmail.com
+ * @author David Clutter
  */
 public class InputLayer extends Layer {
 
@@ -44,5 +29,15 @@ public class InputLayer extends Layer {
                 })
                 .boxed()
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Layer mutate(final double rate) {
+        throw new UnsupportedOperationException("Can't mutate an input layer");
+    }
+
+    @Override
+    public Layer crossover(final Layer mate) {
+        throw new UnsupportedOperationException("Can't crossover an input layer");
     }
 }

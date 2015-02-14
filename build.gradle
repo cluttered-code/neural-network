@@ -2,14 +2,19 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'jacoco'
 
-group = 'com.cluttered-code.neural-network'
-version = '1.0.0-SNAPSHOT'
-
 sourceCompatibility = JavaVersion.VERSION_1_8
 
-project.ext {
-    jmockitVersion = '1.13'
-    junitVersion = '4.11'
+project.ext.versions = [
+    gradle:     '2.2.1',
+    log4j2:     '2.1',
+    slf4j:      '1.7.9',
+    jmockit:    '1.14',
+    junit:      '4.12',
+    jacoco:     '0.7.2.201409121644'
+]
+
+jacoco {
+    toolVersion = versions.jacoco
 }
 
 repositories {
@@ -17,8 +22,13 @@ repositories {
 }
 
 dependencies {
-    testCompile "org.jmockit:jmockit:${jmockitVersion}"
-    testCompile "junit:junit:${junitVersion}"
+    compile "org.slf4j:slf4j-api:${versions.slf4j}"
+    compile "org.apache.logging.log4j:log4j-slf4j-impl:${versions.log4j2}"
+    compile "org.apache.logging.log4j:log4j-api:${versions.log4j2}"
+    compile "org.apache.logging.log4j:log4j-core:${versions.log4j2}"
+
+    testCompile "org.jmockit:jmockit:${versions.jmockit}"
+    testCompile "junit:junit:${versions.junit}"
 }
 
 test {
@@ -27,7 +37,24 @@ test {
     }
 }
 
+task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
+    dependsOn = subprojects.test
+    additionalSourceDirs = files(sourceSets.main.allSource.srcDirs, subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories = files(sourceSets.main.allSource.srcDirs, subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories = files(sourceSets.main.output, subprojects.sourceSets.main.output)
+    executionData = files(jacocoTestReport.executionData, subprojects.jacocoTestReport.executionData)
+
+    onlyIf = {
+        true
+    }
+
+    doFirst {
+        executionData = files(executionData.findAll {
+            it.exists()
+        })
+    }
+}
+
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2'
-    distributionUrl = 'http://services.gradle.org/distributions/gradle-2.2-all.zip'
+    gradleVersion = versions.gradle
 }

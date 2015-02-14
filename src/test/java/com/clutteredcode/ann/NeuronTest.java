@@ -1,18 +1,3 @@
-/**
- * (C) Copyright 2014 David Clutter (cluttered.code@gmail.com).
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.clutteredcode.ann;
 
 import com.clutteredcode.ann.activation.ActivationFunction;
@@ -23,16 +8,16 @@ import mockit.Mocked;
 import mockit.Tested;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static mockit.Deencapsulation.getField;
-import static mockit.Deencapsulation.invoke;
-import static mockit.Deencapsulation.setField;
+import static junit.framework.TestCase.*;
+import static mockit.Deencapsulation.*;
 
 /**
- * @author cluttered.code@gmail.com
+ * @author David Clutter
  */
 public class NeuronTest {
 
@@ -148,5 +133,108 @@ public class NeuronTest {
 
         final double actual = invoke(neuron, "randomBoundedDouble");
         assertEquals((double) Neuron.MAXIMUM_BOUND, actual);
+    }
+
+    @Test
+    public void testMutate_none() {
+        final List<Double> localWeights = Arrays.asList(2.67, 29.55, 45.83);
+
+        setField(neuron, "weights", localWeights);
+
+        new Expectations(ActivationType.class) {{
+            ActivationType.random(); times = 0;
+        }};
+
+        final Neuron mutatedNeuron = neuron.mutate(0.0);
+
+        final ActivationType expectedActivationType = getField(neuron, "activationType");
+        final ActivationType actualActivationType = getField(mutatedNeuron, "activationType");
+        assertEquals(expectedActivationType, actualActivationType);
+
+        final double expectedBias = getField(neuron, "bias");
+        final double actualBias = getField(mutatedNeuron, "bias");
+        assertEquals(expectedBias, actualBias);
+
+        final List<Double> expectedWeights = getField(neuron, "weights");
+        final List<Double> actualWeights = getField(mutatedNeuron, "weights");
+        assertNotSame(expectedWeights, actualWeights);
+        assertEquals(expectedWeights, actualWeights);
+    }
+
+    @Test
+    public void testMutate_all() {
+        final List<Double> localWeights = Arrays.asList(2.67, 29.55, 45.83);
+
+        setField(neuron, "weights", localWeights);
+
+        new Expectations(ActivationType.class, neuron) {{
+            ActivationType.random(); times = 1; result = ActivationType.TAN_H;
+            invoke(neuron, "randomBoundedDouble"); times = 4;
+        }};
+
+        final Neuron mutatedNeuron = neuron.mutate(1.0);
+
+        final ActivationType expectedActivationType = getField(neuron, "activationType");
+        final ActivationType actualActivationType = getField(mutatedNeuron, "activationType");
+        assert(expectedActivationType != actualActivationType);
+
+        final double expectedBias = getField(neuron, "bias");
+        final double actualBias = getField(mutatedNeuron, "bias");
+        assert(expectedBias != actualBias);
+
+        final List<Double> expectedWeights = getField(neuron, "weights");
+        final List<Double> actualWeights = getField(mutatedNeuron, "weights");
+        for(int i = 0; i < localWeights.size(); ++i)
+            assert(!expectedWeights.get(i).equals(actualWeights.get(i)));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testCrossover(@Mocked final Random random) {
+        final List<Double> weights = Arrays.asList(1.0, 3.0, 5.0);
+        setField(neuron, "random", random);
+        setField(neuron, "weights", weights);
+
+        final ActivationType mateActivationType = ActivationType.TAN_H;
+        final double mateBias = 25.0;
+        final List<Double> mateWeights = Arrays.asList(2.0, 4.0, 6.0);
+        final Neuron mate = newInstance(Neuron.class, mateActivationType, mateBias, mateWeights);
+
+        new Expectations() {{
+            random.nextBoolean(); times = 5; returns(true, false, true, false, true);
+        }};
+
+        final Neuron crossoverNeuron = neuron.crossover(mate);
+
+        assert(mateActivationType == getField(crossoverNeuron, "activationType"));
+        assertEquals(bias, getField(crossoverNeuron, "bias"));
+        assertEquals(mateWeights.get(0), ((List<Double>) getField(crossoverNeuron, "weights")).get(0));
+        assertEquals(weights.get(1), ((List<Double>) getField(crossoverNeuron, "weights")).get(1));
+        assertEquals(mateWeights.get(2), ((List<Double>) getField(crossoverNeuron, "weights")).get(2));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testCrossover_opposite(@Mocked final Random random) {
+        final List<Double> weights = Arrays.asList(1.0, 3.0, 5.0);
+        setField(neuron, "random", random);
+        setField(neuron, "weights", weights);
+
+        final ActivationType mateActivationType = ActivationType.TAN_H;
+        final double mateBias = 25.0;
+        final List<Double> mateWeights = Arrays.asList(2.0, 4.0, 6.0);
+        final Neuron mate = newInstance(Neuron.class, mateActivationType, mateBias, mateWeights);
+
+        new Expectations() {{
+            random.nextBoolean(); times = 5; returns(false, true, false, true, false);
+        }};
+
+        final Neuron crossoverNeuron = neuron.crossover(mate);
+
+        assert(activationType == getField(crossoverNeuron, "activationType"));
+        assertEquals(mateBias, getField(crossoverNeuron, "bias"));
+        assertEquals(weights.get(0), ((List<Double>) getField(crossoverNeuron, "weights")).get(0));
+        assertEquals(mateWeights.get(1), ((List<Double>) getField(crossoverNeuron, "weights")).get(1));
+        assertEquals(weights.get(2), ((List<Double>) getField(crossoverNeuron, "weights")).get(2));
     }
 }
