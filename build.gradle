@@ -52,27 +52,10 @@ coveralls {
     sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
 
-task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
-    dependsOn = subprojects.test
-    additionalSourceDirs = files(sourceSets.main.allSource.srcDirs, subprojects.sourceSets.main.allSource.srcDirs)
-    sourceDirectories = files(sourceSets.main.allSource.srcDirs, subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories = files(sourceSets.main.output, subprojects.sourceSets.main.output)
-    executionData = files(jacocoTestReport.executionData, subprojects.jacocoTestReport.executionData)
+jacocoTestReport {
     reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
         html.enabled = true
-        xml.enabled = true
-        csv.enabled = false
-        xml.destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-    }
-
-    onlyIf = {
-        true
-    }
-
-    doFirst {
-        executionData = files(executionData.findAll {
-            it.exists()
-        })
     }
 }
 
