@@ -8,10 +8,8 @@
 ```
 [![Build Status](https://travis-ci.org/cluttered-code/neural-network.svg?branch=master)](https://travis-ci.org/cluttered-code/neural-network)
 [![Coverage Status](https://coveralls.io/repos/cluttered-code/neural-network/badge.png)](https://coveralls.io/r/cluttered-code/neural-network)
-
-Java: 1.8
-
-License: Apache License Version 2.0
+[![Java](https://img.shields.io/badge/java-8-blue.svg)
+[![License](https://img.shields.io/badge/license-APLv2-blue.svg)
 
 Run Tests with code coverage:
-```./gradlew clean cleanTest test jacocoTestReport```
+```./gradlew clean cleanTest jacocoRootReport```
