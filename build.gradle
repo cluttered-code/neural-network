@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1'
-    }
-}
-
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'jacoco'
-apply plugin: 'com.github.kt3k.coveralls'
+
+plugins {
+    id 'com.github.kt3k.coveralls' version '2.0.1'
+}
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
