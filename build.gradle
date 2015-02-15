@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-apply plugin: 'idea'
-apply plugin: 'java'
-apply plugin: 'jacoco'
-
 plugins {
     id 'com.github.kt3k.coveralls' version '2.0.1'
 }
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'jacoco'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
