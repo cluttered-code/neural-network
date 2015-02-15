@@ -37,7 +37,7 @@ public class Neuron implements GeneticElement<Neuron> {
 
     private final ActivationType activationType;
     private final double bias;
-    private final List<Double> weights;
+    private final List<Double> inputWeights;
 
     public Neuron(final ActivationType activationType, final int numInputs) {
         this.activationType = activationType;
@@ -45,17 +45,17 @@ public class Neuron implements GeneticElement<Neuron> {
 
         bias = randomBoundedDouble();
 
-        weights = IntStream.range(0, numInputs)
+        inputWeights = IntStream.range(0, numInputs)
                 .parallel()
                 .mapToDouble(i -> randomBoundedDouble())
                 .boxed()
                 .collect(Collectors.toList());
     }
 
-    public Neuron(final ActivationType activationType, final double bias, final List<Double> weights) {
+    public Neuron(final ActivationType activationType, final double bias, final List<Double> inputWeights) {
         this.activationType = activationType;
         this.bias = bias;
-        this.weights = weights;
+        this.inputWeights = inputWeights;
         random = new Random();
     }
 
@@ -65,52 +65,46 @@ public class Neuron implements GeneticElement<Neuron> {
 
     public double fire(final double input) {
         final List<Double> inputs = Collections.singletonList(input);
-        final double result = fire(inputs);
 
-        return result;
+        return fire(inputs);
     }
 
     public double fire(final List<Double> inputs) {
         final double biasDotProduct = dotProductWithWeights(inputs) - bias;
         final ActivationFunction activationFunction = activationType.getActivationFunction();
-        final double result = activationFunction.evaluate(biasDotProduct);
 
-        return result;
+        return activationFunction.evaluate(biasDotProduct);
     }
 
     private double dotProductWithWeights(final List<Double> inputs) {
-        if (inputs.size() != weights.size())
-            throw new IllegalArgumentException("inputs (" + inputs.size() + ") and weights (" + weights.size() + ") must have the same number of elements");
+        if (inputs.size() != inputWeights.size())
+            throw new IllegalArgumentException("inputs (" + inputs.size() + ") and inputWeights (" + inputWeights.size() + ") must have the same number of elements");
 
-        final double dotProduct = IntStream.range(0, weights.size())
+        return IntStream.range(0, inputWeights.size())
                 .parallel()
-                .mapToDouble(i -> weights.get(i) * inputs.get(i))
+                .mapToDouble(i -> inputWeights.get(i) * inputs.get(i))
                 .sum();
-
-        return dotProduct;
     }
 
     @Override
     public Neuron mutate(final double rate) {
         final ActivationType mutatedActivationType = random.nextDouble() < rate ? ActivationType.random() : activationType;
         final double mutatedBias = random.nextDouble() < rate ? randomBoundedDouble() : bias;
-        final List<Double> mutatedWeights = weights.stream()
+        final List<Double> mutatedWeights = inputWeights.stream()
                 .map(weight -> random.nextDouble() < rate ? randomBoundedDouble() : weight)
                 .collect(Collectors.toList());
-        final Neuron neuron = new Neuron(mutatedActivationType, mutatedBias, mutatedWeights);
 
-        return neuron;
+        return new Neuron(mutatedActivationType, mutatedBias, mutatedWeights);
     }
 
     @Override
     public Neuron crossover(final Neuron mate) {
         final ActivationType crossoverActivationType = random.nextBoolean() ? mate.activationType : activationType;
         final double crossoverBias = random.nextBoolean() ? mate.bias : bias;
-        final List<Double> crossoverWeights = IntStream.range(0, weights.size())
-                .mapToObj(i -> random.nextBoolean() ? mate.weights.get(i) : weights.get(i))
+        final List<Double> crossoverWeights = IntStream.range(0, inputWeights.size())
+                .mapToObj(i -> random.nextBoolean() ? mate.inputWeights.get(i) : inputWeights.get(i))
                 .collect(Collectors.toList());
-        final Neuron neuron = new Neuron(crossoverActivationType, crossoverBias, crossoverWeights);
 
-        return neuron;
+        return new Neuron(crossoverActivationType, crossoverBias, crossoverWeights);
     }
 }

@@ -56,9 +56,8 @@ public class NeuralNetwork implements GeneticElement<NeuralNetwork> {
                     } else return layers.get(i).mutate(rate);
                 })
                 .collect(Collectors.toList());
-        final NeuralNetwork network = new NeuralNetwork(mutatedLayers);
 
-        return network;
+        return new NeuralNetwork(mutatedLayers);
     }
 
     @Override
@@ -70,8 +69,7 @@ public class NeuralNetwork implements GeneticElement<NeuralNetwork> {
                     } else return layers.get(i).crossover(mate.layers.get(i));
                 })
                 .collect(Collectors.toList());
-        final NeuralNetwork network = new NeuralNetwork(crossoverLayers);
 
-        return network;
+        return new NeuralNetwork(crossoverLayers);
     }
 }

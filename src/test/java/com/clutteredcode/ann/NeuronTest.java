@@ -50,25 +50,25 @@ public class NeuronTest {
 
     @Injectable
     @SuppressWarnings("unused")
-    private List<Double> weights;
+    private List<Double> inputWeights;
 
     @Test
     public void testFullConstructor() {
         final ActivationType actualActivationType = getField(neuron, "activationType");
         final double actualBias = getField(neuron, "bias");
-        final List<Double> actualWeights = getField(neuron, "weights");
+        final List<Double> actualWeights = getField(neuron, "inputWeights");
 
         assertNotNull(neuron);
         assertEquals(actualActivationType, actualActivationType);
         assertEquals(bias, actualBias);
-        assertEquals(weights, actualWeights);
+        assertEquals(inputWeights, actualWeights);
     }
 
     @Test
     public void testGeneratingConstructor() {
         final int numInputs = 5;
         final Neuron localNeuron = new Neuron(activationType, numInputs);
-        final List<Double> weights = getField(localNeuron, "weights");
+        final List<Double> weights = getField(localNeuron, "inputWeights");
 
         assertEquals(numInputs, weights.size());
     }
@@ -109,7 +109,7 @@ public class NeuronTest {
         final List<Double> inputs = Arrays.asList(2.67, 29.55, 45.83);
         final double expected = 2176.7093999999997;
 
-        setField(neuron, "weights", localWeights);
+        setField(neuron, "inputWeights", localWeights);
 
         final double result = invoke(neuron, "dotProductWithWeights", inputs);
 
@@ -121,7 +121,7 @@ public class NeuronTest {
         final List<Double> localWeights = Arrays.asList(83.4);
         final List<Double> inputs = Arrays.asList(2.67, 29.55, 45.83);
 
-        setField(neuron, "weights", localWeights);
+        setField(neuron, "inputWeights", localWeights);
 
         invoke(neuron, "dotProductWithWeights", inputs);
     }
@@ -154,7 +154,7 @@ public class NeuronTest {
     public void testMutate_none() {
         final List<Double> localWeights = Arrays.asList(2.67, 29.55, 45.83);
 
-        setField(neuron, "weights", localWeights);
+        setField(neuron, "inputWeights", localWeights);
 
         new Expectations(ActivationType.class) {{
             ActivationType.random(); times = 0;
@@ -170,8 +170,8 @@ public class NeuronTest {
         final double actualBias = getField(mutatedNeuron, "bias");
         assertEquals(expectedBias, actualBias);
 
-        final List<Double> expectedWeights = getField(neuron, "weights");
-        final List<Double> actualWeights = getField(mutatedNeuron, "weights");
+        final List<Double> expectedWeights = getField(neuron, "inputWeights");
+        final List<Double> actualWeights = getField(mutatedNeuron, "inputWeights");
         assertNotSame(expectedWeights, actualWeights);
         assertEquals(expectedWeights, actualWeights);
     }
@@ -180,7 +180,7 @@ public class NeuronTest {
     public void testMutate_all() {
         final List<Double> localWeights = Arrays.asList(2.67, 29.55, 45.83);
 
-        setField(neuron, "weights", localWeights);
+        setField(neuron, "inputWeights", localWeights);
 
         new Expectations(ActivationType.class, neuron) {{
             ActivationType.random(); times = 1; result = ActivationType.TAN_H;
@@ -197,8 +197,8 @@ public class NeuronTest {
         final double actualBias = getField(mutatedNeuron, "bias");
         assert(expectedBias != actualBias);
 
-        final List<Double> expectedWeights = getField(neuron, "weights");
-        final List<Double> actualWeights = getField(mutatedNeuron, "weights");
+        final List<Double> expectedWeights = getField(neuron, "inputWeights");
+        final List<Double> actualWeights = getField(mutatedNeuron, "inputWeights");
         for(int i = 0; i < localWeights.size(); ++i)
             assert(!expectedWeights.get(i).equals(actualWeights.get(i)));
     }
@@ -208,7 +208,7 @@ public class NeuronTest {
     public void testCrossover(@Mocked final Random random) {
         final List<Double> weights = Arrays.asList(1.0, 3.0, 5.0);
         setField(neuron, "random", random);
-        setField(neuron, "weights", weights);
+        setField(neuron, "inputWeights", weights);
 
         final ActivationType mateActivationType = ActivationType.TAN_H;
         final double mateBias = 25.0;
@@ -223,9 +223,9 @@ public class NeuronTest {
 
         assert(mateActivationType == getField(crossoverNeuron, "activationType"));
         assertEquals(bias, getField(crossoverNeuron, "bias"));
-        assertEquals(mateWeights.get(0), ((List<Double>) getField(crossoverNeuron, "weights")).get(0));
-        assertEquals(weights.get(1), ((List<Double>) getField(crossoverNeuron, "weights")).get(1));
-        assertEquals(mateWeights.get(2), ((List<Double>) getField(crossoverNeuron, "weights")).get(2));
+        assertEquals(mateWeights.get(0), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(0));
+        assertEquals(weights.get(1), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(1));
+        assertEquals(mateWeights.get(2), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(2));
     }
 
     @Test
@@ -233,7 +233,7 @@ public class NeuronTest {
     public void testCrossover_opposite(@Mocked final Random random) {
         final List<Double> weights = Arrays.asList(1.0, 3.0, 5.0);
         setField(neuron, "random", random);
-        setField(neuron, "weights", weights);
+        setField(neuron, "inputWeights", weights);
 
         final ActivationType mateActivationType = ActivationType.TAN_H;
         final double mateBias = 25.0;
@@ -248,8 +248,8 @@ public class NeuronTest {
 
         assert(activationType == getField(crossoverNeuron, "activationType"));
         assertEquals(mateBias, getField(crossoverNeuron, "bias"));
-        assertEquals(weights.get(0), ((List<Double>) getField(crossoverNeuron, "weights")).get(0));
-        assertEquals(mateWeights.get(1), ((List<Double>) getField(crossoverNeuron, "weights")).get(1));
-        assertEquals(weights.get(2), ((List<Double>) getField(crossoverNeuron, "weights")).get(2));
+        assertEquals(weights.get(0), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(0));
+        assertEquals(mateWeights.get(1), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(1));
+        assertEquals(weights.get(2), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(2));
     }
 }

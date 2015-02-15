@@ -26,7 +26,6 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 
 project.ext.versions = [
     gradle:     '2.2.1',
-    log4j2:     '2.1',
     slf4j:      '1.7.9',
     jmockit:    '1.14',
     junit:      '4.12',
@@ -43,9 +42,6 @@ repositories {
 
 dependencies {
     compile "org.slf4j:slf4j-api:${versions.slf4j}"
-    compile "org.apache.logging.log4j:log4j-slf4j-impl:${versions.log4j2}"
-    compile "org.apache.logging.log4j:log4j-api:${versions.log4j2}"
-    compile "org.apache.logging.log4j:log4j-core:${versions.log4j2}"
 
     testCompile "org.jmockit:jmockit:${versions.jmockit}"
     testCompile "junit:junit:${versions.junit}"

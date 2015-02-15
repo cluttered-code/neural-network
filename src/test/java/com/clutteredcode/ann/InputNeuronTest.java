@@ -38,11 +38,11 @@ public class InputNeuronTest {
     public void testConstructor() {
         final ActivationType activationType = getField(inputNeuron, "activationType");
         final double bias = getField(inputNeuron, "bias");
-        final List<Double> weights = getField(inputNeuron, "weights");
+        final List<Double> inputWeights = getField(inputNeuron, "inputWeights");
 
         assertEquals(ActivationType.LINEAR, activationType);
         assertEquals(0.0, bias);
-        assertEquals(Collections.singletonList(1.0), weights);
+        assertEquals(Collections.singletonList(1.0), inputWeights);
     }
 
     @Test(expected = UnsupportedOperationException.class)
