@@ -18,8 +18,8 @@ Include in maven project
 ```
 <repositories>
     <repository>
-        <id>cluttered-code</id>
-        <url>http://dl.bintray.com/cluttered-code/maven</url>
+        <id>jcenter</id>
+        <url>http://jcenter.bintray.com/</url>
     </repository>
 </repositories>
 
@@ -35,9 +35,7 @@ Include in maven project
 Include in gradle project
 ```
 repositories {
-    maven {
-        url 'http://dl.bintray.com/cluttered-code/maven'
-    }
+    jcenter()
 }
 
 dependencies {
