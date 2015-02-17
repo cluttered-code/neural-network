@@ -12,4 +12,36 @@
 [![Build Status](https://travis-ci.org/cluttered-code/neural-network.svg?branch=master)](https://travis-ci.org/cluttered-code/neural-network)
 [![Coverage Status](https://coveralls.io/repos/cluttered-code/neural-network/badge.svg?branch=master)](https://coveralls.io/r/cluttered-code/neural-network?branch=master)
 
+Include in maven project
+```
+<repositories>
+    <repository>
+        <id>cluttered-code</id>
+        <url>http://dl.bintray.com/cluttered-code/maven</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.clutteredcode</groupId>
+        <artifactId>neural-network</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+</dependencies>
+```
+
+Include in gradle project
+```
+repositories {
+    maven {
+        url 'http://dl.bintray.com/cluttered-code/maven'
+    }
+}
+
+dependencies {
+    compile 'com.clutteredcode:neural-network:1.0.0'
+}
+```
+
+
 Run Tests with code coverage: `./gradlew clean cleanTest jacocoRootReport`

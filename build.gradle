@@ -15,12 +15,15 @@
  */
 
 plugins {
+    id 'com.jfrog.bintray' version '1.0'
+    id 'com.jfrog.artifactory' version '3.0.1'
     id 'com.github.kt3k.coveralls' version '2.0.1'
 }
 
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -86,6 +89,45 @@ tasks.coveralls {
 
     dependsOn jacocoRootReport
     onlyIf { System.env.'CI' }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'com.clutteredcode'
+            artifactId 'neural-network'
+            version currentVersion
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', 'Neural Network')
+                root.appendNode('description', 'A Neural Network base on a Genetic Algorithm.')
+                root.appendNode('url', 'https://github.com/cluttered-code/neural-network')
+
+                def licenses = root.appendNode('licenses')
+                def license = licenses.appendNode('license')
+                license.appendNode('name', 'The Apache Software License, Version 2.0')
+                license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
+                license.appendNode('distribution', 'repo')
+
+                def developers = root.appendNode('developers')
+                def developer = developers.appendNode('developer')
+                developer.appendNode('id', 'cluttered-code')
+                developer.appendNode('name', 'David Clutter')
+                developer.appendNode('email', 'cluttered.code@gmail.com')
+            }
+
+            from components.java
+
+            artifact sourceJar {
+                classifier 'sources'
+            }
+        }
+    }
 }
 
 task wrapper(type: Wrapper) {
