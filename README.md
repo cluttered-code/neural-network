@@ -6,6 +6,8 @@
 | |\  |  __/ |_| | | | (_| | | | |\  |  __/ |_ \ V  V / (_) | |  |   <
 |_| \_|\___|\__,_|_|  \__,_|_| |_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\
 ```
+[ ![Download](https://api.bintray.com/packages/cluttered-code/maven/neural-network/images/download.svg)](https://bintray.com/cluttered-code/maven/neural-network/_latestVersion)
+
 [![Java](https://img.shields.io/badge/java-8-blue.svg)](http://docs.oracle.com/javase/8/docs/api/)
 [![License](https://img.shields.io/badge/license-APLv2-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
