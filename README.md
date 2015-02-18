@@ -7,19 +7,20 @@
 |_| \_|\___|\__,_|_|  \__,_|_| |_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\
 ```
 [ ![Download](https://api.bintray.com/packages/cluttered-code/maven/neural-network/images/download.svg)](https://bintray.com/cluttered-code/maven/neural-network/_latestVersion)
-
 [![Java](https://img.shields.io/badge/java-8-blue.svg)](http://docs.oracle.com/javase/8/docs/api/)
 [![License](https://img.shields.io/badge/license-APLv2-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 [![Build Status](https://travis-ci.org/cluttered-code/neural-network.svg?branch=master)](https://travis-ci.org/cluttered-code/neural-network)
 [![Coverage Status](https://coveralls.io/repos/cluttered-code/neural-network/badge.svg?branch=master)](https://coveralls.io/r/cluttered-code/neural-network?branch=master)
 
+[![Dependency Status](https://www.versioneye.com/user/projects/54e42c2ed1ec577c9700028b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54e42c2ed1ec577c9700028b)
+
 Include in maven project
 ```
 <repositories>
     <repository>
-        <id>cluttered-code</id>
-        <url>http://dl.bintray.com/cluttered-code/maven</url>
+        <id>jcenter</id>
+        <url>http://jcenter.bintray.com/</url>
     </repository>
 </repositories>
 
@@ -35,9 +36,7 @@ Include in maven project
 Include in gradle project
 ```
 repositories {
-    maven {
-        url 'http://dl.bintray.com/cluttered-code/maven'
-    }
+    jcenter()
 }
 
 dependencies {
