@@ -29,9 +29,6 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 
 project.ext.versions = [
     gradle:     '2.3',
-    slf4j:      '1.7.10',
-    jmockit:    '1.15',
-    junit:      '4.12',
     jacoco:     '0.7.2.201409121644'
 ]
 
@@ -44,10 +41,10 @@ repositories {
 }
 
 dependencies {
-    compile "org.slf4j:slf4j-api:${versions.slf4j}"
+    compile 'org.slf4j:slf4j-api:1.7.10'
 
-    testCompile "org.jmockit:jmockit:${versions.jmockit}"
-    testCompile "junit:junit:${versions.junit}"
+    testCompile 'org.jmockit:jmockit:1.15'
+    testCompile 'junit:junit:4.12'
 }
 
 test {
