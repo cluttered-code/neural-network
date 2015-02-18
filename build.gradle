@@ -29,8 +29,8 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 
 project.ext.versions = [
     gradle:     '2.3',
-    slf4j:      '1.7.9',
-    jmockit:    '1.14',
+    slf4j:      '1.7.10',
+    jmockit:    '1.15',
     junit:      '4.12',
     jacoco:     '0.7.2.201409121644'
 ]
