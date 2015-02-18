@@ -15,7 +15,19 @@
 
 [![Dependency Status](https://www.versioneye.com/user/projects/54e42c2ed1ec577c9700028b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54e42c2ed1ec577c9700028b)
 
-Include in maven project
+
+Include in **gradle** project:
+```
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.clutteredcode:neural-network:1.0.0'
+}
+```
+
+Include in **maven** project:
 ```
 <repositories>
     <repository>
@@ -32,17 +44,5 @@ Include in maven project
     </dependency>
 </dependencies>
 ```
-
-Include in gradle project
-```
-repositories {
-    jcenter()
-}
-
-dependencies {
-    compile 'com.clutteredcode:neural-network:1.0.0'
-}
-```
-
 
 Run Tests with code coverage: `./gradlew clean cleanTest jacocoRootReport`
