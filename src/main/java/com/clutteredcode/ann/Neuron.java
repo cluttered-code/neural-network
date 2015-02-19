@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 David Clutter
+ * Copyright © 2015 David Clutter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,34 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
+ * The {@code Neuron} class represents a neuron in the neural network, or brain.
+ * <p>
+ *     A {@code Neuron} is the most basic building block of the neural network.
+ * </p>
+ *
+ * A {@code Neuron} contains the following:
+ * <ul>
+ *     <li>
+ *         <b>Input Weights</b> -
+ *         <em>Modify the affect each input will have on the output.</em>
+ *     </li>
+ *     <li>
+ *         <b>Bias</b> -
+ *         <em>Influence the overall output.</em>
+ *     </li>
+ *     <li>
+ *         <b>Activation Function</b> -
+ *         <em>Normalize the output.</em>
+ *     </li>
+ * </ul>
+ *
+ * <p>
+ *     The class {@code Neuron} includes methods for firing the the neuron, as well as, mutate and crossover
+ *     methods to facilitate the genetic algorithm training process.
+ * </p>
+ *
  * @author David Clutter
+ * @since 1.0.0
  */
 public class Neuron implements GeneticElement<Neuron> {
 
@@ -39,6 +66,14 @@ public class Neuron implements GeneticElement<Neuron> {
     private final double bias;
     private final List<Double> inputWeights;
 
+    /**
+     * Construct a new {@code Neuron} object with the specified {@code ActivationType}.
+     * A bounded random number of input weights will be generated for the specified numInputs.
+     * A bounded random number will also be generated for the bias.
+     *
+     * @param activationType The {@code ActivationType} used to normalized this {@code Neuron} object's output.
+     * @param numInputs The number of random input weights to be generated.
+     */
     public Neuron(final ActivationType activationType, final int numInputs) {
         this.activationType = activationType;
         random = new Random();
@@ -52,6 +87,13 @@ public class Neuron implements GeneticElement<Neuron> {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Construct a new {@code Neuron} object with the specified parameters.
+     *
+     * @param activationType The {@code ActivationType} used to normalized this {@code Neuron} object's output.
+     * @param bias The bias used while calculating this {@code Neuron} object's output.
+     * @param inputWeights the weights applied to each of this {@code Neuron} object's inputs.
+     */
     public Neuron(final ActivationType activationType, final double bias, final List<Double> inputWeights) {
         this.activationType = activationType;
         this.bias = bias;
@@ -63,12 +105,26 @@ public class Neuron implements GeneticElement<Neuron> {
         return random.nextDouble() * (MAXIMUM_BOUND - MINIMUM_BOUND) + MINIMUM_BOUND;
     }
 
+    /**
+     * Fire this {@code Neuron} with the specified {@code input}. The output of this {@code Neuron} is returned.
+     *
+     * @param input The input used to calculate the {@code Neuron} object's output.
+     *
+     * @return The output of this {@code Neuron}.
+     */
     public double fire(final double input) {
         final List<Double> inputs = Collections.singletonList(input);
 
         return fire(inputs);
     }
 
+    /**
+     * Fire with {@code Neuron} with the specified {@code input}. The output of this {@code Neuron} is returned.
+     *
+     * @param inputs The {@code list} of {@code Double} objects used to calculate the {@code Neuron} object's output.
+     *
+     * @return The output of this {@code Neuron}.
+     */
     public double fire(final List<Double> inputs) {
         final double biasDotProduct = dotProductWithWeights(inputs) - bias;
         final ActivationFunction activationFunction = activationType.getActivationFunction();
@@ -87,11 +143,11 @@ public class Neuron implements GeneticElement<Neuron> {
     }
 
     @Override
-    public Neuron mutate(final double rate) {
-        final ActivationType mutatedActivationType = random.nextDouble() < rate ? ActivationType.random() : activationType;
-        final double mutatedBias = random.nextDouble() < rate ? randomBoundedDouble() : bias;
+    public Neuron mutate(final double mutationRate) {
+        final ActivationType mutatedActivationType = random.nextDouble() < mutationRate ? ActivationType.random() : activationType;
+        final double mutatedBias = random.nextDouble() < mutationRate ? randomBoundedDouble() : bias;
         final List<Double> mutatedWeights = inputWeights.stream()
-                .map(weight -> random.nextDouble() < rate ? randomBoundedDouble() : weight)
+                .map(weight -> random.nextDouble() < mutationRate ? randomBoundedDouble() : weight)
                 .collect(Collectors.toList());
 
         return new Neuron(mutatedActivationType, mutatedBias, mutatedWeights);

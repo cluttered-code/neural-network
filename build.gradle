@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 David Clutter
+ * Copyright © 2015 David Clutter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,6 +92,16 @@ task sourceJar(type: Jar) {
     from sourceSets.main.allJava
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+//task javadoc(type: Javadoc) {
+//    source = sourceSets.main.allJava
+//    //destinationDir = reporting.file("javadocs")
+//}
+
 publishing {
     publications {
         maven(MavenPublication) {
@@ -122,6 +132,10 @@ publishing {
 
             artifact sourceJar {
                 classifier 'sources'
+            }
+
+            artifact javadocJar {
+                classifier 'javadoc'
             }
         }
     }

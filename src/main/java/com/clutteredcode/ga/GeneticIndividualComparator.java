@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 David Clutter
+ * Copyright © 2015 David Clutter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,22 @@ package com.clutteredcode.ga;
 import java.util.Comparator;
 
 /**
+ * Compare two {@code GeneticIndividual} objects using their fitness values.
+ *
  * @author David Clutter
+ * @since 1.0.0
  */
 public class GeneticIndividualComparator<T extends GeneticIndividual> implements Comparator<T> {
 
+    /**
+     * Compare the specified {@code GeneticIndividual} objects using their fitness values.
+     *
+     * @param individual1 The first {@code GeneticIndividual}.
+     * @param individual2 The second {@code GeneticIndividual}.
+     *
+     * @return A negative integer, zero, or a positive integer as the first argument is
+     * less than, equal to, or greater than the second.
+     */
     @Override
     public int compare(final T individual1, final T individual2) {
         final double fitness1 = individual1.fitness();

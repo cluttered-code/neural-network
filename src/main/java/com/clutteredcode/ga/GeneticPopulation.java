@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 David Clutter
+ * Copyright © 2015 David Clutter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 /**
  * @author David Clutter
  */
-public abstract class GeneticPopulation<T extends GeneticIndividual<T, I>, I> {
+public abstract class GeneticPopulation<T extends GeneticIndividual<I>, I> {
 
     private static final Logger LOG = LoggerFactory.getLogger(GeneticPopulation.class);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 David Clutter
+ * Copyright © 2015 David Clutter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,9 @@ public class Layer implements GeneticElement<Layer> {
     }
 
     @Override
-    public Layer mutate(final double rate) {
+    public Layer mutate(final double mutationRate) {
         final List<Neuron> mutatedNeurons = neurons.stream()
-                .map(neuron -> neuron.mutate(rate))
+                .map(neuron -> neuron.mutate(mutationRate))
                 .collect(Collectors.toList());
 
         return new Layer(mutatedNeurons);

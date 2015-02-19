@@ -47,7 +47,7 @@ public class InputLayer extends Layer {
     }
 
     @Override
-    public Layer mutate(final double rate) {
+    public Layer mutate(final double mutationRate) {
         throw new UnsupportedOperationException("Can't mutate an input layer");
     }
 

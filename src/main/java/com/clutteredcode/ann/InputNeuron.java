@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 David Clutter
+ * Copyright © 2015 David Clutter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +20,24 @@ import com.clutteredcode.ann.activation.ActivationType;
 import java.util.Collections;
 
 /**
+ * {@code InputNeuron} objects comprise the {@code InputLayer} of the {@code NeuralNetwork}.
+ * They only accept a single input and output input value unchanged.
+ *
  * @author David Clutter
+ * @see com.clutteredcode.ann.feedforward.InputLayer
+ * @since 1.0.0
  */
 public class InputNeuron extends Neuron {
 
+    /**
+     * Construct a new {@code InputNeuron} object.
+     */
     public InputNeuron() {
         super(ActivationType.LINEAR, 0.0, Collections.singletonList(1.0));
     }
 
     @Override
-    public InputNeuron mutate(final double rate) {
+    public Neuron mutate(final double mutationRate) {
         throw new UnsupportedOperationException("Can't mutate an input neuron");
     }
 

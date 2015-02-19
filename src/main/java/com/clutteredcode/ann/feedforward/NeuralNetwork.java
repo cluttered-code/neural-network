@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 David Clutter
+ * Copyright © 2015 David Clutter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,12 +48,12 @@ public class NeuralNetwork implements GeneticElement<NeuralNetwork> {
     }
 
     @Override
-    public NeuralNetwork mutate(double rate) {
+    public NeuralNetwork mutate(final double mutationRate) {
         final List<Layer> mutatedLayers = IntStream.range(0, layers.size())
                 .mapToObj(i -> {
                     if (i == 0) {
                         return layers.get(i);
-                    } else return layers.get(i).mutate(rate);
+                    } else return layers.get(i).mutate(mutationRate);
                 })
                 .collect(Collectors.toList());
 
