@@ -17,6 +17,7 @@ package com.clutteredcode.ann.feedforward;
 
 import com.clutteredcode.ann.InputNeuron;
 import com.clutteredcode.ann.Neuron;
+import junit.framework.Assert;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
@@ -24,8 +25,10 @@ import mockit.Tested;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
 import static mockit.Deencapsulation.setField;
 
 /**
@@ -66,13 +69,16 @@ public class InputLayerTest {
         inputLayer.fire(inputs);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMutate() {
-        inputLayer.mutate(Math.PI);
+        final Layer result = inputLayer.mutate(Math.PI);
+        assertEquals(inputLayer, result);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCrossover() {
-        inputLayer.crossover(inputLayer);
+        final Layer mate = new Layer(Collections.emptyList());
+        final Layer result = inputLayer.crossover(mate);
+        assertEquals(inputLayer, result);
     }
 }

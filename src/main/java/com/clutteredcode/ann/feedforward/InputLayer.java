@@ -46,13 +46,25 @@ public class InputLayer extends Layer {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns {@code this InputLayer} without mutating.
+     *
+     * @param mutationRate This parameter is ignored.
+     * @return {@code this InputLayer}.
+     */
     @Override
     public Layer mutate(final double mutationRate) {
-        throw new UnsupportedOperationException("Can't mutate an input layer");
+        return this;
     }
 
+    /**
+     * Returns {@code this InputLayer} without performing crossover.
+     *
+     * @param mate This parameter is ignored.
+     * @return {@code this InputLayer}.
+     */
     @Override
     public Layer crossover(final Layer mate) {
-        throw new UnsupportedOperationException("Can't crossover an input layer");
+        return this;
     }
 }
