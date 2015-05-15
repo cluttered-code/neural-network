@@ -18,9 +18,9 @@ package com.clutteredcode.ann.feedforward;
 import com.clutteredcode.ann.Neuron;
 import com.clutteredcode.ga.GeneticElement;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * @author David Clutter
@@ -34,28 +34,33 @@ public class Layer implements GeneticElement<Layer> {
     }
 
     public List<Double> fire(final List<Double> inputs) {
-        final List<Double> outputs = neurons.stream()
-                .map(neuron -> neuron.fire(inputs))
-                .collect(Collectors.toList());
-
+        final List<Double> outputs = new ArrayList<>(neurons.size());
+        for (final Neuron neuron : neurons) {
+            final double output = neuron.fire(inputs);
+            outputs.add(output);
+        }
         return outputs;
     }
 
     @Override
     public Layer mutate(final double mutationRate) {
-        final List<Neuron> mutatedNeurons = neurons.stream()
-                .map(neuron -> neuron.mutate(mutationRate))
-                .collect(Collectors.toList());
-
-        return new Layer(mutatedNeurons);
+        final List<Neuron> mutatedNeuronList = new ArrayList<>(neurons.size());
+        for (final Neuron neuron : neurons) {
+            final Neuron mutatedNeuron = neuron.mutate(mutationRate);
+            mutatedNeuronList.add(mutatedNeuron);
+        }
+        return new Layer(mutatedNeuronList);
     }
 
     @Override
     public Layer crossover(final Layer mate) {
-        final List<Neuron> crossoverNeurons = IntStream.range(0, neurons.size())
-                .mapToObj(i -> neurons.get(i).crossover(mate.neurons.get(i)))
-                .collect(Collectors.toList());
-
-        return new Layer(crossoverNeurons);
+        final List<Neuron> crossoverNeuronList = new ArrayList<>(neurons.size());
+        final Iterator<? extends Neuron> mateNeuronIterator = mate.neurons.iterator();
+        for (final Neuron neuron : neurons) {
+            final Neuron mateNeuron = mateNeuronIterator.next();
+            final Neuron crossoverNeuron = neuron.crossover(mateNeuron);
+            crossoverNeuronList.add(crossoverNeuron);
+        }
+        return new Layer(crossoverNeuronList);
     }
 }

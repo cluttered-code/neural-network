@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.fail;
 import static mockit.Deencapsulation.setField;
 
 /**
@@ -53,13 +54,17 @@ public class InputLayerTest {
         new Expectations() {{
             neuron.fire(inputs.get(0));
             times = 1;
+            result = inputs.get(0);
             neuron.fire(inputs.get(1));
             times = 1;
+            result = inputs.get(1);
             neuron.fire(inputs.get(2));
             times = 1;
+            result = inputs.get(2);
         }};
 
-        inputLayer.fire(inputs);
+        final List<Double> results = inputLayer.fire(inputs);
+        assertEquals(inputs, results);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -67,6 +72,7 @@ public class InputLayerTest {
         final List<Double> inputs = Arrays.asList(42.0, 128.0, 64.0);
 
         inputLayer.fire(inputs);
+        fail();
     }
 
     @Test

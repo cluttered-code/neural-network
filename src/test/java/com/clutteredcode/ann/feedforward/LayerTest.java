@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.Assert.assertNotSame;
 import static junit.framework.TestCase.assertEquals;
 import static mockit.Deencapsulation.newInstance;
 import static mockit.Deencapsulation.setField;
@@ -56,7 +57,7 @@ public class LayerTest {
             returns(inputs);
         }};
 
-        List<Double> results = layer.fire(inputs);
+        final List<Double> results = layer.fire(inputs);
         assertEquals(inputs, results);
     }
 
@@ -69,9 +70,11 @@ public class LayerTest {
         new Expectations() {{
             neuron.mutate(rate);
             times = localNeurons.size();
+            result = neuron;
         }};
 
-        layer.mutate(rate);
+        final Layer result = layer.mutate(rate);
+        assertNotSame(layer, result);
     }
 
     @Test
@@ -84,8 +87,10 @@ public class LayerTest {
         new Expectations() {{
             neuron.crossover(neuron);
             times = localNeurons.size();
+            result = neuron;
         }};
 
-        layer.crossover(mate);
+        final Layer result = layer.crossover(mate);
+        assertNotSame(layer, result);
     }
 }
