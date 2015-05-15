@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.clutteredcode:neural-network:1.0.0'
+    compile 'com.clutteredcode:neural-network:1.0.1'
 }
 ```
 
@@ -40,7 +40,7 @@ Include in **maven** project:
     <dependency>
         <groupId>com.clutteredcode</groupId>
         <artifactId>neural-network</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
 </dependencies>
 ```
