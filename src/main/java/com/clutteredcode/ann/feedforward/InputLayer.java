@@ -18,9 +18,9 @@ package com.clutteredcode.ann.feedforward;
 import com.clutteredcode.ann.InputNeuron;
 import com.clutteredcode.ann.Neuron;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * @author David Clutter
@@ -33,17 +33,17 @@ public class InputLayer extends Layer {
 
     @Override
     public List<Double> fire(final List<Double> inputs) {
-        if (inputs.size() != neurons.size())
+        if (inputs.size() != neurons.size()) {
             throw new IllegalArgumentException("inputs (" + inputs.size() + ") and Neurons (" + neurons.size() + ") in the input layer must have the same number of elements");
-
-        return IntStream.range(0, inputs.size())
-                .mapToDouble(i -> {
-                    final double input = inputs.get(i);
-                    final Neuron neuron = neurons.get(i);
-                    return neuron.fire(input);
-                })
-                .boxed()
-                .collect(Collectors.toList());
+        }
+        final List<Double> outputs = new ArrayList<>(neurons.size());
+        final Iterator<Double> inputsIterator = inputs.iterator();
+        for (final Neuron neuron : neurons) {
+            final double input = inputsIterator.next();
+            final double output = neuron.fire(input);
+            outputs.add(output);
+        }
+        return outputs;
     }
 
     /**
