@@ -36,13 +36,25 @@ public class InputNeuron extends Neuron {
         super(Activation.LINEAR, 0.0, Collections.singletonList(1.0));
     }
 
+    /**
+     * Returns {@code this InputNeuron} without mutating.
+     *
+     * @param mutationRate This parameter is ignored.
+     * @return {@code this InputNeuron}.
+     */
     @Override
     public Neuron mutate(final double mutationRate) {
-        throw new UnsupportedOperationException("Can't mutate an input neuron");
+        return this;
     }
 
+    /**
+     * Returns {@code this InputNeuron} without performing crossover.
+     *
+     * @param mate This parameter is ignored.
+     * @return {@code this InputNeuron}.
+     */
     @Override
     public Neuron crossover(final Neuron mate) {
-        throw new UnsupportedOperationException("Can't crossover an input neuron");
+        return this;
     }
 }

@@ -27,28 +27,28 @@ import java.util.stream.IntStream;
 /**
  * The {@code Neuron} class represents a neuron in the neural network, or brain.
  * <p>
- *     A {@code Neuron} is the most basic building block of the neural network.
+ * A {@code Neuron} is the most basic building block of the neural network.
  * </p>
- *
+ * <p>
  * A {@code Neuron} contains the following:
  * <ul>
- *     <li>
- *         <b>Input Weights</b> -
- *         <em>Modify the affect each input will have on the output.</em>
- *     </li>
- *     <li>
- *         <b>Bias</b> -
- *         <em>Influence the overall output.</em>
- *     </li>
- *     <li>
- *         <b>Activation Function</b> -
- *         <em>Normalize the output.</em>
- *     </li>
+ * <li>
+ * <b>Input Weights</b> -
+ * <em>Modify the affect each input will have on the output.</em>
+ * </li>
+ * <li>
+ * <b>Bias</b> -
+ * <em>Influence the overall output.</em>
+ * </li>
+ * <li>
+ * <b>Activation Function</b> -
+ * <em>Normalize the output.</em>
+ * </li>
  * </ul>
- *
  * <p>
- *     The class {@code Neuron} includes methods for firing the the neuron, as well as, mutate and crossover
- *     methods to facilitate the genetic algorithm training process.
+ * <p>
+ * The class {@code Neuron} includes methods for firing the the neuron, as well as, mutate and crossover
+ * methods to facilitate the genetic algorithm training process.
  * </p>
  *
  * @author David Clutter
@@ -71,7 +71,7 @@ public class Neuron implements GeneticElement<Neuron> {
      * A bounded random number will also be generated for the bias.
      *
      * @param activation The {@code Activation} used to normalized this {@code Neuron} object's output.
-     * @param numInputs The number of random input weights to be generated.
+     * @param numInputs  The number of random input weights to be generated.
      */
     public Neuron(final Activation activation, final int numInputs) {
         this.activation = activation;
@@ -87,8 +87,8 @@ public class Neuron implements GeneticElement<Neuron> {
     /**
      * Construct a new {@code Neuron} object with the specified parameters.
      *
-     * @param activation The {@code Activation} used to normalized this {@code Neuron} object's output.
-     * @param bias The bias used while calculating this {@code Neuron} object's output.
+     * @param activation   The {@code Activation} used to normalized this {@code Neuron} object's output.
+     * @param bias         The bias used while calculating this {@code Neuron} object's output.
      * @param inputWeights the weights applied to each of this {@code Neuron} object's inputs.
      */
     public Neuron(final Activation activation, final double bias, final List<Double> inputWeights) {
@@ -106,7 +106,6 @@ public class Neuron implements GeneticElement<Neuron> {
      * Fire this {@code Neuron} with the specified {@code input}. The output of this {@code Neuron} is returned.
      *
      * @param input The input used to calculate the {@code Neuron} object's output.
-     *
      * @return The output of this {@code Neuron}.
      */
     public double fire(final double input) {
@@ -118,7 +117,6 @@ public class Neuron implements GeneticElement<Neuron> {
      * Fire with {@code Neuron} with the specified {@code input}. The output of this {@code Neuron} is returned.
      *
      * @param inputs The {@code list} of {@code Double} objects used to calculate the {@code Neuron} object's output.
-     *
      * @return The output of this {@code Neuron}.
      */
     public double fire(final List<Double> inputs) {

@@ -29,18 +29,16 @@ public interface GeneticElement<T extends GeneticElement> {
      * {@code GeneticElement} and return the result.
      *
      * @param mutationRate The percentage used to determine how often a mutation should occur for each nested property.
-     *
      * @return the new mutated {@code GeneticElement}.
      */
-    public T mutate(final double mutationRate);
+    T mutate(final double mutationRate);
 
     /**
      * Create a new child {@code GeneticElement} by mixing together the properties of this {@code GeneticElement} and
      * the specified {@code GeneticElement} and returning the result.
      *
      * @param mate The {@code GeneticElement} used to crossover with this {@code GeneticElement}.
-     *
      * @return the new child {@code GeneticElement}.
      */
-    public T crossover(final T mate);
+    T crossover(final T mate);
 }

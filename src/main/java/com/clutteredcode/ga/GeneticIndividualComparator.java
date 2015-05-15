@@ -30,7 +30,6 @@ public class GeneticIndividualComparator<T extends GeneticIndividual> implements
      *
      * @param individual1 The first {@code GeneticIndividual}.
      * @param individual2 The second {@code GeneticIndividual}.
-     *
      * @return A negative integer, zero, or a positive integer as the first argument is
      * less than, equal to, or greater than the second.
      */

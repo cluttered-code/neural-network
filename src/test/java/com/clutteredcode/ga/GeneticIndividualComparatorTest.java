@@ -46,8 +46,10 @@ public class GeneticIndividualComparatorTest {
     public void testLessThan() {
 
         new Expectations() {{
-            individual1.fitness(); result = 2;
-            individual2.fitness(); result = 5;
+            individual1.fitness();
+            result = 2;
+            individual2.fitness();
+            result = 5;
         }};
 
         final int result = comparator.compare(individual1, individual2);
@@ -59,8 +61,10 @@ public class GeneticIndividualComparatorTest {
     public void testGreaterThan() {
 
         new Expectations() {{
-            individual1.fitness(); result = 5;
-            individual2.fitness(); result = 2;
+            individual1.fitness();
+            result = 5;
+            individual2.fitness();
+            result = 2;
         }};
 
         final int result = comparator.compare(individual1, individual2);
@@ -72,8 +76,10 @@ public class GeneticIndividualComparatorTest {
     public void testEqual() {
 
         new Expectations() {{
-            individual1.fitness(); result = 5;
-            individual2.fitness(); result = 5;
+            individual1.fitness();
+            result = 5;
+            individual2.fitness();
+            result = 5;
         }};
 
         final int result = comparator.compare(individual1, individual2);

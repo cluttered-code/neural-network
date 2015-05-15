@@ -33,7 +33,7 @@ public class InputLayer extends Layer {
 
     @Override
     public List<Double> fire(final List<Double> inputs) {
-        if(inputs.size() != neurons.size())
+        if (inputs.size() != neurons.size())
             throw new IllegalArgumentException("inputs (" + inputs.size() + ") and Neurons (" + neurons.size() + ") in the input layer must have the same number of elements");
 
         return IntStream.range(0, inputs.size())

@@ -20,7 +20,6 @@ import mockit.MockUp;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static mockit.Deencapsulation.getField;
 
 /**
  * @author David Clutter

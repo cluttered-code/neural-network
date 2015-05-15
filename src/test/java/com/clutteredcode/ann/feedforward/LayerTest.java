@@ -51,7 +51,9 @@ public class LayerTest {
         setField(layer, "neurons", localNeurons);
 
         new Expectations() {{
-            neuron.fire(inputs); times = 3; returns(inputs);
+            neuron.fire(inputs);
+            times = 3;
+            returns(inputs);
         }};
 
         List<Double> results = layer.fire(inputs);
@@ -65,7 +67,8 @@ public class LayerTest {
         setField(layer, "neurons", localNeurons);
 
         new Expectations() {{
-            neuron.mutate(rate); times = localNeurons.size();
+            neuron.mutate(rate);
+            times = localNeurons.size();
         }};
 
         layer.mutate(rate);
@@ -79,7 +82,8 @@ public class LayerTest {
         final Layer mate = newInstance(Layer.class, localNeurons);
 
         new Expectations() {{
-            neuron.crossover(neuron); times = localNeurons.size();
+            neuron.crossover(neuron);
+            times = localNeurons.size();
         }};
 
         layer.crossover(mate);

@@ -31,7 +31,7 @@ public class NeuralNetwork implements GeneticElement<NeuralNetwork> {
     private List<Layer> layers;
 
     public NeuralNetwork(final List<Layer> layers) {
-        if(!(layers.get(0) instanceof InputLayer))
+        if (!(layers.get(0) instanceof InputLayer))
             throw new IllegalArgumentException("First layer in network must be an input layer");
         this.layers = layers;
     }

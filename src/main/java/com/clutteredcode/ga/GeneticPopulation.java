@@ -64,7 +64,7 @@ public abstract class GeneticPopulation<T extends GeneticIndividual<I>, I> {
         double fitness = rankings.get(0).fitness();
         LOG.info("fitness {} of goal {}", fitness, goal);
 
-        while(fitness < goal) {
+        while (fitness < goal) {
             trainGeneration(inputs);
 
             fitness = rankings.get(0).fitness();

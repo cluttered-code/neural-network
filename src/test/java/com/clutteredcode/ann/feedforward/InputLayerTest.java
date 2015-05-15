@@ -48,9 +48,12 @@ public class InputLayerTest {
         setField(inputLayer, "neurons", localNeurons);
 
         new Expectations() {{
-            neuron.fire(inputs.get(0)); times = 1;
-            neuron.fire(inputs.get(1)); times = 1;
-            neuron.fire(inputs.get(2)); times = 1;
+            neuron.fire(inputs.get(0));
+            times = 1;
+            neuron.fire(inputs.get(1));
+            times = 1;
+            neuron.fire(inputs.get(2));
+            times = 1;
         }};
 
         inputLayer.fire(inputs);

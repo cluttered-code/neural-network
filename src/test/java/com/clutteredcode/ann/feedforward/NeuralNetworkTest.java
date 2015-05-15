@@ -61,8 +61,12 @@ public class NeuralNetworkTest {
         final List<Double> output = Collections.emptyList();
 
         new Expectations() {{
-            inputLayer.fire(inputs); times = 1; result = output;
-            layer.fire(output); times = 2; result = output;
+            inputLayer.fire(inputs);
+            times = 1;
+            result = output;
+            layer.fire(output);
+            times = 2;
+            result = output;
         }};
 
         neuralNetwork.fire(inputs);
@@ -73,7 +77,8 @@ public class NeuralNetworkTest {
         final double rate = 0.42;
 
         new Expectations() {{
-            inputLayer.mutate(anyDouble); times = 0;
+            inputLayer.mutate(anyDouble);
+            times = 0;
             //layer.mutate(rate); times = layers.size() - 1;
         }};
 
@@ -83,7 +88,8 @@ public class NeuralNetworkTest {
     @Test
     public void testCrossover() {
         new Expectations() {{
-            inputLayer.crossover((Layer) any); times = 0;
+            inputLayer.crossover((Layer) any);
+            times = 0;
             //layer.crossover(layer); times = layers.size() - 1;
         }};
 

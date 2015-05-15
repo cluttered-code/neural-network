@@ -36,7 +36,7 @@ public class XORTest {
     @Test
     public void xorTest() {
         // Input Layer
-        final InputNeuron  inputNeuron1 = new InputNeuron();
+        final InputNeuron inputNeuron1 = new InputNeuron();
         final InputNeuron inputNeuron2 = new InputNeuron();
         final List<InputNeuron> inputNeuronList = Arrays.asList(inputNeuron1, inputNeuron2);
         final InputLayer inputLayer = new InputLayer(inputNeuronList);

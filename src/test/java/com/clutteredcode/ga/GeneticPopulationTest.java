@@ -15,7 +15,10 @@
  */
 package com.clutteredcode.ga;
 
-import mockit.*;
+import mockit.Expectations;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.Tested;
 import mockit.integration.junit4.JMockit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,7 +66,8 @@ public class GeneticPopulationTest {
         final int generations = 8;
 
         new Expectations(geneticPopulation) {{
-            invoke(geneticPopulation, "trainGeneration", inputs); times = generations;
+            invoke(geneticPopulation, "trainGeneration", inputs);
+            times = generations;
         }};
 
         geneticPopulation.trainNumberOfGenerations(generations, inputs);
@@ -79,9 +83,13 @@ public class GeneticPopulationTest {
         setField(geneticPopulation, "rankings", rankings);
 
         new Expectations(geneticPopulation) {{
-            rankings.get(0); times = 2; result = individual;
-            individual.fitness(); returns(lessThanGoal, moreThanGoal);
-            invoke(geneticPopulation, "trainGeneration", inputs); times = 1;
+            rankings.get(0);
+            times = 2;
+            result = individual;
+            individual.fitness();
+            returns(lessThanGoal, moreThanGoal);
+            invoke(geneticPopulation, "trainGeneration", inputs);
+            times = 1;
         }};
 
         geneticPopulation.trainUntilFitnessReached(goal, inputs);
@@ -90,9 +98,12 @@ public class GeneticPopulationTest {
     @Test
     public void testTrainGeneration(@Mocked final List<Double> inputs) {
         new Expectations(geneticPopulation) {{
-            invoke(geneticPopulation, "trainAndRankAllIndividuals", inputs); times = 1;
-            invoke(geneticPopulation, "crossoverGeneration"); times = 1;
-            invoke(geneticPopulation, "mutateGeneration"); times = 1;
+            invoke(geneticPopulation, "trainAndRankAllIndividuals", inputs);
+            times = 1;
+            invoke(geneticPopulation, "crossoverGeneration");
+            times = 1;
+            invoke(geneticPopulation, "mutateGeneration");
+            times = 1;
         }};
 
         invoke(geneticPopulation, "trainGeneration", inputs);
@@ -102,14 +113,19 @@ public class GeneticPopulationTest {
     public void testTrainAndRankAllIndividuals(@Mocked final List<Double> inputs,
                                                @Mocked final GeneticIndividual individual,
                                                @Mocked final PriorityQueue<GeneticIndividual> rankingsHeap) {
-        final List<GeneticIndividual> overrideGeneration = Arrays.asList(individual, individual,individual);
+        final List<GeneticIndividual> overrideGeneration = Arrays.asList(individual, individual, individual);
         setField(geneticPopulation, "generation", overrideGeneration);
 
         new Expectations(geneticPopulation) {{
-            new PriorityQueue<>(population, GeneticPopulation.individualComparator); times = 1; result = rankingsHeap;
-            individual.train(inputs); times = overrideGeneration.size();
-            rankingsHeap.offer(individual); times = overrideGeneration.size();
-            invoke(geneticPopulation, "populateSortedRankingsWithHeap", rankingsHeap); times = 1;
+            new PriorityQueue<>(population, GeneticPopulation.individualComparator);
+            times = 1;
+            result = rankingsHeap;
+            individual.train(inputs);
+            times = overrideGeneration.size();
+            rankingsHeap.offer(individual);
+            times = overrideGeneration.size();
+            invoke(geneticPopulation, "populateSortedRankingsWithHeap", rankingsHeap);
+            times = 1;
         }};
 
         invoke(geneticPopulation, "trainAndRankAllIndividuals", inputs);
@@ -125,9 +141,14 @@ public class GeneticPopulationTest {
 
         new Expectations() {{
             rankings.clear();
-            rankingsHeap.isEmpty(); times = 2; returns(false, true);
-            rankingsHeap.poll(); times = 1; result = individual;
-            rankings.add(individual); times = 1;
+            rankingsHeap.isEmpty();
+            times = 2;
+            returns(false, true);
+            rankingsHeap.poll();
+            times = 1;
+            result = individual;
+            rankings.add(individual);
+            times = 1;
         }};
 
         invoke(geneticPopulation, "populateSortedRankingsWithHeap", rankingsHeap);
@@ -140,10 +161,14 @@ public class GeneticPopulationTest {
         setField(geneticPopulation, "generation", generation);
 
         new Expectations(geneticPopulation) {{
-            generation.subList(0, elites); result = generation;
-            List<GeneticIndividual> nextGeneration = new LinkedList<>(generation); result = generation;
-            invoke(geneticPopulation, "adjustedTotalFitness"); result = totalFitness;
-            invoke(geneticPopulation, "selectAndCrossoverAPairOfIndividuals", totalFitness); result = individual;
+            generation.subList(0, elites);
+            result = generation;
+            List<GeneticIndividual> nextGeneration = new LinkedList<>(generation);
+            result = generation;
+            invoke(geneticPopulation, "adjustedTotalFitness");
+            result = totalFitness;
+            invoke(geneticPopulation, "selectAndCrossoverAPairOfIndividuals", totalFitness);
+            result = individual;
             nextGeneration.add(individual);
 
         }};
@@ -157,7 +182,9 @@ public class GeneticPopulationTest {
         setField(geneticPopulation, "rankings", rankings);
 
         new Expectations(rankings) {{
-            individual.fitness(); times = 4; returns(-2.0, 5.0, 3.0, -2.0);
+            individual.fitness();
+            times = 4;
+            returns(-2.0, 5.0, 3.0, -2.0);
         }};
 
         final double totalFitness = invoke(geneticPopulation, "adjustedTotalFitness");
@@ -173,8 +200,10 @@ public class GeneticPopulationTest {
         final double totalFitness = Math.PI;
 
         new Expectations(geneticPopulation) {{
-            invoke(geneticPopulation, "selectIndividualUsingFitnessProportion", totalFitness); result = individual;
-            individual.crossover(individual); result = individual;
+            invoke(geneticPopulation, "selectIndividualUsingFitnessProportion", totalFitness);
+            result = individual;
+            individual.crossover(individual);
+            result = individual;
         }};
 
         final GeneticIndividual result = invoke(geneticPopulation, "selectAndCrossoverAPairOfIndividuals", totalFitness);
@@ -192,10 +221,14 @@ public class GeneticPopulationTest {
         setField(geneticPopulation, "rankings", rankings);
 
         new Expectations(geneticPopulation) {{
-            Math.random(); result = 0.25;
-            invoke(geneticPopulation, "fitnessOffset"); result = 1.5;
-            individual1.fitness(); result = 3.9;
-            individual2.fitness(); result = 2.5;
+            Math.random();
+            result = 0.25;
+            invoke(geneticPopulation, "fitnessOffset");
+            result = 1.5;
+            individual1.fitness();
+            result = 3.9;
+            individual2.fitness();
+            result = 2.5;
         }};
 
         final GeneticIndividual result = invoke(geneticPopulation, "selectIndividualUsingFitnessProportion", totalFitness);
@@ -223,7 +256,9 @@ public class GeneticPopulationTest {
         setField(geneticPopulation, "generation", generation);
 
         new Expectations(LinkedList.class) {{
-            individual.mutate(mutationRate); times = generation.size() - 1;  result = individual;
+            individual.mutate(mutationRate);
+            times = generation.size() - 1;
+            result = individual;
         }};
 
         invoke(geneticPopulation, "mutateGeneration");

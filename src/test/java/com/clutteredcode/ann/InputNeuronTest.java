@@ -45,13 +45,16 @@ public class InputNeuronTest {
         assertEquals(Collections.singletonList(1.0), inputWeights);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMutate() {
-        inputNeuron.mutate(Math.PI);
+        final Neuron result = inputNeuron.mutate(Math.PI);
+        assertEquals(inputNeuron, result);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCrossover() {
-        inputNeuron.crossover(inputNeuron);
+        final Neuron mate = new Neuron(Activation.random(), 500);
+        final Neuron result = inputNeuron.crossover(mate);
+        assertEquals(inputNeuron, result);
     }
 }

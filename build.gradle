@@ -28,8 +28,8 @@ apply plugin: 'maven-publish'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 project.ext.versions = [
-    gradle:     '2.3',
-    jacoco:     '0.7.2.201409121644'
+        gradle: '2.3',
+        jacoco: '0.7.2.201409121644'
 ]
 
 jacoco {

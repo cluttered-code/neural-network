@@ -16,7 +16,6 @@
 package com.clutteredcode.ann;
 
 import com.clutteredcode.ann.activation.Activation;
-import com.clutteredcode.ann.activation.ActivationFunction;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
@@ -78,8 +77,11 @@ public class NeuronTest {
         final double input = 42.0;
 
         new Expectations(neuron) {{
-            Collections.singletonList(input); times = 1; result = inputs;
-            neuron.fire(inputs); times = 1;
+            Collections.singletonList(input);
+            times = 1;
+            result = inputs;
+            neuron.fire(inputs);
+            times = 1;
         }};
 
         neuron.fire(input);
@@ -92,8 +94,12 @@ public class NeuronTest {
         final double expected = 12345.0;
 
         new Expectations(neuron) {{
-            invoke(neuron, "dotProductWithWeights", inputs); times = 1; result = dotProduct;
-            activation.evaluate(dotProduct - bias); times = 1; result = expected;
+            invoke(neuron, "dotProductWithWeights", inputs);
+            times = 1;
+            result = dotProduct;
+            activation.evaluate(dotProduct - bias);
+            times = 1;
+            result = expected;
         }};
 
         final double actual = neuron.fire(inputs);
@@ -129,7 +135,9 @@ public class NeuronTest {
         setField(neuron, "random", random);
 
         new Expectations() {{
-            random.nextDouble(); times = 1; result = 0.0;
+            random.nextDouble();
+            times = 1;
+            result = 0.0;
         }};
 
         final double actual = invoke(neuron, "randomBoundedDouble");
@@ -141,7 +149,9 @@ public class NeuronTest {
         setField(neuron, "random", random);
 
         new Expectations() {{
-            random.nextDouble(); times = 1; result = 0.999999999999999999999999;
+            random.nextDouble();
+            times = 1;
+            result = 0.999999999999999999999999;
         }};
 
         final double actual = invoke(neuron, "randomBoundedDouble");
@@ -155,7 +165,8 @@ public class NeuronTest {
         setField(neuron, "inputWeights", localWeights);
 
         new Expectations(Activation.class) {{
-            Activation.random(); times = 0;
+            Activation.random();
+            times = 0;
         }};
 
         final Neuron mutatedNeuron = neuron.mutate(0.0);
@@ -181,24 +192,27 @@ public class NeuronTest {
         setField(neuron, "inputWeights", localWeights);
 
         new Expectations(Activation.class, neuron) {{
-            Activation.random(); times = 1; result = Activation.TAN_H;
-            invoke(neuron, "randomBoundedDouble"); times = 4;
+            Activation.random();
+            times = 1;
+            result = Activation.TAN_H;
+            invoke(neuron, "randomBoundedDouble");
+            times = 4;
         }};
 
         final Neuron mutatedNeuron = neuron.mutate(1.0);
 
         final Activation expectedActivation = getField(neuron, "activation");
         final Activation actualActivation = getField(mutatedNeuron, "activation");
-        assert(expectedActivation != actualActivation);
+        assert (expectedActivation != actualActivation);
 
         final double expectedBias = getField(neuron, "bias");
         final double actualBias = getField(mutatedNeuron, "bias");
-        assert(expectedBias != actualBias);
+        assert (expectedBias != actualBias);
 
         final List<Double> expectedWeights = getField(neuron, "inputWeights");
         final List<Double> actualWeights = getField(mutatedNeuron, "inputWeights");
-        for(int i = 0; i < localWeights.size(); ++i)
-            assert(!expectedWeights.get(i).equals(actualWeights.get(i)));
+        for (int i = 0; i < localWeights.size(); ++i)
+            assert (!expectedWeights.get(i).equals(actualWeights.get(i)));
     }
 
     @Test
@@ -214,12 +228,14 @@ public class NeuronTest {
         final Neuron mate = newInstance(Neuron.class, mateActivation, mateBias, mateWeights);
 
         new Expectations() {{
-            random.nextBoolean(); times = 5; returns(true, false, true, false, true);
+            random.nextBoolean();
+            times = 5;
+            returns(true, false, true, false, true);
         }};
 
         final Neuron crossoverNeuron = neuron.crossover(mate);
 
-        assert(mateActivation == getField(crossoverNeuron, "activation"));
+        assert (mateActivation == getField(crossoverNeuron, "activation"));
         assertEquals(bias, getField(crossoverNeuron, "bias"));
         assertEquals(mateWeights.get(0), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(0));
         assertEquals(weights.get(1), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(1));
@@ -239,12 +255,14 @@ public class NeuronTest {
         final Neuron mate = newInstance(Neuron.class, mateActivation, mateBias, mateWeights);
 
         new Expectations() {{
-            random.nextBoolean(); times = 5; returns(false, true, false, true, false);
+            random.nextBoolean();
+            times = 5;
+            returns(false, true, false, true, false);
         }};
 
         final Neuron crossoverNeuron = neuron.crossover(mate);
 
-        assert(activation == getField(crossoverNeuron, "activation"));
+        assert (activation == getField(crossoverNeuron, "activation"));
         assertEquals(mateBias, getField(crossoverNeuron, "bias"));
         assertEquals(weights.get(0), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(0));
         assertEquals(mateWeights.get(1), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(1));
