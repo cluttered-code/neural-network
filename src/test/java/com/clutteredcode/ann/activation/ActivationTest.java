@@ -25,31 +25,7 @@ import static mockit.Deencapsulation.getField;
 /**
  * @author David Clutter
  */
-public class ActivationTypeTest {
-
-    @Test
-    public void testGetLinearActivationFunction() {
-        final ActivationFunction expected = getField(ActivationType.class, "LINEAR_FUNCTION");
-        final ActivationFunction actual = ActivationType.LINEAR.getActivationFunction();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testGetSigmoidActivationFunction() {
-        final ActivationFunction expected = getField(ActivationType.class, "SIGMOID_FUNCTION");
-        final ActivationFunction actual = ActivationType.SIGMOID.getActivationFunction();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testGetHyperbolicTangentActivationFunction() {
-        final ActivationFunction expected = getField(ActivationType.class, "TAN_H_FUNCTION");
-        final ActivationFunction actual = ActivationType.TAN_H.getActivationFunction();
-
-        assertEquals(expected, actual);
-    }
+public class ActivationTest {
 
     @Test
     public void testRandomLinear() {
@@ -61,9 +37,9 @@ public class ActivationTypeTest {
             }
         };
 
-        final ActivationType activationType = ActivationType.random();
+        final Activation activation = Activation.random();
 
-        assertEquals(ActivationType.LINEAR, activationType);
+        assertEquals(Activation.LINEAR, activation);
     }
 
     @Test
@@ -76,9 +52,9 @@ public class ActivationTypeTest {
             }
         };
 
-        final ActivationType activationType = ActivationType.random();
+        final Activation activation = Activation.random();
 
-        assertEquals(ActivationType.SIGMOID, activationType);
+        assertEquals(Activation.SIGMOID, activation);
     }
 
     @Test
@@ -91,32 +67,32 @@ public class ActivationTypeTest {
             }
         };
 
-        final ActivationType activationType = ActivationType.random();
+        final Activation activation = Activation.random();
 
-        assertEquals(ActivationType.TAN_H, activationType);
+        assertEquals(Activation.TAN_H, activation);
     }
 
     @Test
     public void testValueOfLinear() {
         final String linear = "LINEAR";
-        final ActivationType activationType = ActivationType.valueOf(linear);
+        final Activation activation = Activation.valueOf(linear);
 
-        assertEquals(ActivationType.LINEAR, activationType);
+        assertEquals(Activation.LINEAR, activation);
     }
 
     @Test
     public void testValueOfSigmoid() {
         final String sigmoid = "SIGMOID";
-        final ActivationType activationType = ActivationType.valueOf(sigmoid);
+        final Activation activation = Activation.valueOf(sigmoid);
 
-        assertEquals(ActivationType.SIGMOID, activationType);
+        assertEquals(Activation.SIGMOID, activation);
     }
 
     @Test
     public void testValueOfHyperbolicTangent() {
         final String tanH = "TAN_H";
-        final ActivationType activationType = ActivationType.valueOf(tanH);
+        final Activation activation = Activation.valueOf(tanH);
 
-        assertEquals(ActivationType.TAN_H, activationType);
+        assertEquals(Activation.TAN_H, activation);
     }
 }

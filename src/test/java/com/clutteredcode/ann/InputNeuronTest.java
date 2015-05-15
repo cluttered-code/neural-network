@@ -15,7 +15,7 @@
  */
 package com.clutteredcode.ann;
 
-import com.clutteredcode.ann.activation.ActivationType;
+import com.clutteredcode.ann.activation.Activation;
 import mockit.Tested;
 import org.junit.Test;
 
@@ -36,11 +36,11 @@ public class InputNeuronTest {
 
     @Test
     public void testConstructor() {
-        final ActivationType activationType = getField(inputNeuron, "activationType");
+        final Activation activation = getField(inputNeuron, "activation");
         final double bias = getField(inputNeuron, "bias");
         final List<Double> inputWeights = getField(inputNeuron, "inputWeights");
 
-        assertEquals(ActivationType.LINEAR, activationType);
+        assertEquals(Activation.LINEAR, activation);
         assertEquals(0.0, bias);
         assertEquals(Collections.singletonList(1.0), inputWeights);
     }

@@ -15,8 +15,8 @@
  */
 package com.clutteredcode.ann;
 
+import com.clutteredcode.ann.activation.Activation;
 import com.clutteredcode.ann.activation.ActivationFunction;
-import com.clutteredcode.ann.activation.ActivationType;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
@@ -42,7 +42,7 @@ public class NeuronTest {
 
     @Injectable
     @SuppressWarnings("unused")
-    private final ActivationType activationType = ActivationType.LINEAR;
+    private final Activation activation = Activation.LINEAR;
 
     @Injectable
     @SuppressWarnings("unused")
@@ -54,12 +54,12 @@ public class NeuronTest {
 
     @Test
     public void testFullConstructor() {
-        final ActivationType actualActivationType = getField(neuron, "activationType");
+        final Activation actualActivation = getField(neuron, "activation");
         final double actualBias = getField(neuron, "bias");
         final List<Double> actualWeights = getField(neuron, "inputWeights");
 
         assertNotNull(neuron);
-        assertEquals(actualActivationType, actualActivationType);
+        assertEquals(actualActivation, actualActivation);
         assertEquals(bias, actualBias);
         assertEquals(inputWeights, actualWeights);
     }
@@ -67,7 +67,7 @@ public class NeuronTest {
     @Test
     public void testGeneratingConstructor() {
         final int numInputs = 5;
-        final Neuron localNeuron = new Neuron(activationType, numInputs);
+        final Neuron localNeuron = new Neuron(activation, numInputs);
         final List<Double> weights = getField(localNeuron, "inputWeights");
 
         assertEquals(numInputs, weights.size());
@@ -90,12 +90,10 @@ public class NeuronTest {
         final List<Double> inputs = Arrays.asList(42.0);
         final double dotProduct = 2525.0;
         final double expected = 12345.0;
-        final ActivationFunction linear = ActivationType.LINEAR.getActivationFunction();
 
         new Expectations(neuron) {{
             invoke(neuron, "dotProductWithWeights", inputs); times = 1; result = dotProduct;
-            activationType.getActivationFunction(); times = 1; result = linear;
-            linear.evaluate(dotProduct - bias); times = 1; result = expected;
+            activation.evaluate(dotProduct - bias); times = 1; result = expected;
         }};
 
         final double actual = neuron.fire(inputs);
@@ -156,15 +154,15 @@ public class NeuronTest {
 
         setField(neuron, "inputWeights", localWeights);
 
-        new Expectations(ActivationType.class) {{
-            ActivationType.random(); times = 0;
+        new Expectations(Activation.class) {{
+            Activation.random(); times = 0;
         }};
 
         final Neuron mutatedNeuron = neuron.mutate(0.0);
 
-        final ActivationType expectedActivationType = getField(neuron, "activationType");
-        final ActivationType actualActivationType = getField(mutatedNeuron, "activationType");
-        assertEquals(expectedActivationType, actualActivationType);
+        final Activation expectedActivation = getField(neuron, "activation");
+        final Activation actualActivation = getField(mutatedNeuron, "activation");
+        assertEquals(expectedActivation, actualActivation);
 
         final double expectedBias = getField(neuron, "bias");
         final double actualBias = getField(mutatedNeuron, "bias");
@@ -182,16 +180,16 @@ public class NeuronTest {
 
         setField(neuron, "inputWeights", localWeights);
 
-        new Expectations(ActivationType.class, neuron) {{
-            ActivationType.random(); times = 1; result = ActivationType.TAN_H;
+        new Expectations(Activation.class, neuron) {{
+            Activation.random(); times = 1; result = Activation.TAN_H;
             invoke(neuron, "randomBoundedDouble"); times = 4;
         }};
 
         final Neuron mutatedNeuron = neuron.mutate(1.0);
 
-        final ActivationType expectedActivationType = getField(neuron, "activationType");
-        final ActivationType actualActivationType = getField(mutatedNeuron, "activationType");
-        assert(expectedActivationType != actualActivationType);
+        final Activation expectedActivation = getField(neuron, "activation");
+        final Activation actualActivation = getField(mutatedNeuron, "activation");
+        assert(expectedActivation != actualActivation);
 
         final double expectedBias = getField(neuron, "bias");
         final double actualBias = getField(mutatedNeuron, "bias");
@@ -210,10 +208,10 @@ public class NeuronTest {
         setField(neuron, "random", random);
         setField(neuron, "inputWeights", weights);
 
-        final ActivationType mateActivationType = ActivationType.TAN_H;
+        final Activation mateActivation = Activation.TAN_H;
         final double mateBias = 25.0;
         final List<Double> mateWeights = Arrays.asList(2.0, 4.0, 6.0);
-        final Neuron mate = newInstance(Neuron.class, mateActivationType, mateBias, mateWeights);
+        final Neuron mate = newInstance(Neuron.class, mateActivation, mateBias, mateWeights);
 
         new Expectations() {{
             random.nextBoolean(); times = 5; returns(true, false, true, false, true);
@@ -221,7 +219,7 @@ public class NeuronTest {
 
         final Neuron crossoverNeuron = neuron.crossover(mate);
 
-        assert(mateActivationType == getField(crossoverNeuron, "activationType"));
+        assert(mateActivation == getField(crossoverNeuron, "activation"));
         assertEquals(bias, getField(crossoverNeuron, "bias"));
         assertEquals(mateWeights.get(0), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(0));
         assertEquals(weights.get(1), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(1));
@@ -235,10 +233,10 @@ public class NeuronTest {
         setField(neuron, "random", random);
         setField(neuron, "inputWeights", weights);
 
-        final ActivationType mateActivationType = ActivationType.TAN_H;
+        final Activation mateActivation = Activation.TAN_H;
         final double mateBias = 25.0;
         final List<Double> mateWeights = Arrays.asList(2.0, 4.0, 6.0);
-        final Neuron mate = newInstance(Neuron.class, mateActivationType, mateBias, mateWeights);
+        final Neuron mate = newInstance(Neuron.class, mateActivation, mateBias, mateWeights);
 
         new Expectations() {{
             random.nextBoolean(); times = 5; returns(false, true, false, true, false);
@@ -246,7 +244,7 @@ public class NeuronTest {
 
         final Neuron crossoverNeuron = neuron.crossover(mate);
 
-        assert(activationType == getField(crossoverNeuron, "activationType"));
+        assert(activation == getField(crossoverNeuron, "activation"));
         assertEquals(mateBias, getField(crossoverNeuron, "bias"));
         assertEquals(weights.get(0), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(0));
         assertEquals(mateWeights.get(1), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(1));

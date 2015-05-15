@@ -15,7 +15,7 @@
  */
 package com.clutteredcode.ann;
 
-import com.clutteredcode.ann.activation.ActivationType;
+import com.clutteredcode.ann.activation.Activation;
 
 import java.util.Collections;
 
@@ -33,7 +33,7 @@ public class InputNeuron extends Neuron {
      * Construct a new {@code InputNeuron} object.
      */
     public InputNeuron() {
-        super(ActivationType.LINEAR, 0.0, Collections.singletonList(1.0));
+        super(Activation.LINEAR, 0.0, Collections.singletonList(1.0));
     }
 
     @Override

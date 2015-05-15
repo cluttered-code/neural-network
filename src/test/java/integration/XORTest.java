@@ -17,7 +17,7 @@ package integration;
 
 import com.clutteredcode.ann.InputNeuron;
 import com.clutteredcode.ann.Neuron;
-import com.clutteredcode.ann.activation.ActivationType;
+import com.clutteredcode.ann.activation.Activation;
 import com.clutteredcode.ann.feedforward.InputLayer;
 import com.clutteredcode.ann.feedforward.Layer;
 import com.clutteredcode.ann.feedforward.NeuralNetwork;
@@ -42,13 +42,13 @@ public class XORTest {
         final InputLayer inputLayer = new InputLayer(inputNeuronList);
 
         // Hidden Layer
-        final Neuron hiddenNeuron1 = new Neuron(ActivationType.SIGMOID, 90.0, Arrays.asList(60.0, 60.0));
-        final Neuron hiddenNeuron2 = new Neuron(ActivationType.SIGMOID, 40.0, Arrays.asList(80.0, 80.0));
+        final Neuron hiddenNeuron1 = new Neuron(Activation.SIGMOID, 90.0, Arrays.asList(60.0, 60.0));
+        final Neuron hiddenNeuron2 = new Neuron(Activation.SIGMOID, 40.0, Arrays.asList(80.0, 80.0));
         final List<Neuron> hiddenNeuronList = Arrays.asList(hiddenNeuron1, hiddenNeuron2);
         final Layer hiddenLayer = new Layer(hiddenNeuronList);
 
         // Output Layer
-        final Neuron outputNeuron = new Neuron(ActivationType.SIGMOID, 30, Arrays.asList(-60.0, 60.0));
+        final Neuron outputNeuron = new Neuron(Activation.SIGMOID, 30, Arrays.asList(-60.0, 60.0));
         final List<Neuron> outputNeuronList = Arrays.asList(outputNeuron);
         final Layer outputLayer = new Layer(outputNeuronList);
 
