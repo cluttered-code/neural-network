@@ -19,6 +19,7 @@ import com.clutteredcode.ann.activation.Activation;
 import com.clutteredcode.ga.GeneticElement;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -128,10 +129,12 @@ public class Neuron implements GeneticElement<Neuron> {
         if (inputs.size() != inputWeights.size()) {
             throw new IllegalArgumentException("inputs (" + inputs.size() + ") and inputWeights (" + inputWeights.size() + ") must have the same number of elements");
         }
-        return IntStream.range(0, inputWeights.size())
-                .parallel()
-                .mapToDouble(i -> inputWeights.get(i) * inputs.get(i))
-                .sum();
+        double dotProduct = 0;
+        final Iterator<Double> inputsIterator = inputs.iterator();
+        for(final Double inputWeight : inputWeights) {
+            dotProduct += inputWeight * inputsIterator.next();
+        }
+        return dotProduct;
     }
 
     @Override
