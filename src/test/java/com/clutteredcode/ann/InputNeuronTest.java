@@ -17,7 +17,9 @@ package com.clutteredcode.ann;
 
 import com.clutteredcode.ann.activation.Activation;
 import mockit.Tested;
+import mockit.integration.junit4.JMockit;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +30,7 @@ import static mockit.Deencapsulation.getField;
 /**
  * @author David Clutter
  */
+@RunWith(JMockit.class)
 public class InputNeuronTest {
 
     @Tested

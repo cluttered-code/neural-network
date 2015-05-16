@@ -20,7 +20,9 @@ import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
 import mockit.Tested;
+import mockit.integration.junit4.JMockit;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,6 +35,7 @@ import static mockit.Deencapsulation.*;
 /**
  * @author David Clutter
  */
+@RunWith(JMockit.class)
 public class NeuronTest {
 
     @Tested
