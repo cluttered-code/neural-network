@@ -21,19 +21,32 @@ package com.clutteredcode.ga;
  * @author David Clutter
  * @since 1.0.0
  */
-public interface GeneticIndividual<I> extends GeneticElement {
+public interface GeneticIndividual<I> extends GeneticElement, Comparable<GeneticIndividual<I>> {
 
     /**
      * Train this {@code GeneticIndividual} with the specified inputs.
      *
      * @param inputs The values used to train this {@code GeneticIndividual}.
      */
-    public void train(final I inputs);
+    void train(final I inputs);
 
     /**
      * The fitness of this {@code GeneticIndividual} after training.
      *
      * @return The fitness value of this {@code GeneticIndividual}.
      */
-    public double fitness();
+    double fitness();
+
+    /**
+     * Compares this {@code GeneticIndividual}'s fitness with the specified {@code GeneticIndividual}'s fitness for order.
+     * Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the
+     * specified {@code GeneticIndividual}.
+     *
+     * @param   individual the {@code GeneticIndividual} to be compared.
+     * @return  a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than
+     *          the specified {@code GeneticIndividual}.
+     */
+    default int compareTo(final GeneticIndividual<I> individual) {
+        return Double.compare(this.fitness(), individual.fitness());
+    }
 }

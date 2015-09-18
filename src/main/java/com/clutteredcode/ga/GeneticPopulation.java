@@ -30,8 +30,6 @@ public abstract class GeneticPopulation<T extends GeneticIndividual<I>, I> {
 
     private static final Logger LOG = LoggerFactory.getLogger(GeneticPopulation.class);
 
-    public static final Comparator<GeneticIndividual> individualComparator = new GeneticIndividualComparator<>();
-
     private transient final List<T> rankings;
 
     private final int population;
@@ -53,7 +51,7 @@ public abstract class GeneticPopulation<T extends GeneticIndividual<I>, I> {
     protected abstract void initializeGeneration();
 
     public void trainNumberOfGenerations(final int generations, final I inputs) {
-        IntStream.range(0, generations)
+        IntStream.rangeClosed(1, generations)
                 .forEach(i -> {
                     LOG.info("training generation {} of {}", i, generations);
                     trainGeneration(inputs);
@@ -80,7 +78,7 @@ public abstract class GeneticPopulation<T extends GeneticIndividual<I>, I> {
     }
 
     private void trainAndRankAllIndividuals(final I inputs) {
-        final PriorityQueue<T> rankingsHeap = new PriorityQueue<>(population, individualComparator);
+        final PriorityQueue<T> rankingsHeap = new PriorityQueue<>(population);
 
         LOG.debug("training individuals");
         generation.forEach(individual -> {

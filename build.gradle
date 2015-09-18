@@ -23,6 +23,7 @@ plugins {
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'jacoco'
+apply plugin: 'findbugs'
 apply plugin: 'maven-publish'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -52,6 +53,17 @@ dependencies {
     testCompile 'org.slf4j:slf4j-simple:1.7.12'
     testCompile 'org.jmockit:jmockit:1.19'
     testCompile 'junit:junit:4.12'
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+findbugs {
+    sourceSets = [sourceSets.main]
 }
 
 test {

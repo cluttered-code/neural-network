@@ -119,7 +119,7 @@ public class GeneticPopulationTest {
         setField(geneticPopulation, "generation", overrideGeneration);
 
         new Expectations(geneticPopulation) {{
-            new PriorityQueue<>(population, GeneticPopulation.individualComparator);
+            new PriorityQueue<>(population);
             times = 1;
             result = rankingsHeap;
             individual.train(inputs);
