@@ -49,4 +49,4 @@ Include in **maven** project:
 
 Code Example:
 
-[XOR Network](src/test/integration/XORTest.java)
+[XOR Network](github.com/cluttered-code/neural-network/blob/master/src/test/java/integration/XORTest.java)
