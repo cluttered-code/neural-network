@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.clutteredcode.ann.feedforward;
+package com.clutteredcode.ann.network.feedforward;
 
-import com.clutteredcode.ann.InputNeuron;
-import com.clutteredcode.ann.Neuron;
+import com.clutteredcode.ann.neuron.InputNeuron;
+import com.clutteredcode.ann.neuron.Neuron;
 import mockit.Expectations;
 import mockit.Mocked;
 import org.junit.Before;

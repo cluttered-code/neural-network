@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.clutteredcode.ann;
+package com.clutteredcode.ann.neuron;
 
 import com.clutteredcode.ann.activation.Activation;
 import mockit.Expectations;
@@ -30,9 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 import static mockit.Deencapsulation.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 
 /**
  * @author David Clutter
@@ -40,7 +38,7 @@ import static org.junit.Assert.assertNotSame;
 @RunWith(JMockit.class)
 public class NeuronTest {
 
-    @Tested
+    @Tested @Mocked
     @SuppressWarnings("unused")
     private Neuron neuron;
 
@@ -81,7 +79,7 @@ public class NeuronTest {
     public void testFireWithDouble(@Mocked @SuppressWarnings("unused") final Collections collection, @Mocked final List<Double> inputs) {
         final double input = 42.0;
 
-        new Expectations(neuron) {{
+        new Expectations() {{
             Collections.singletonList(input);
             times = 1;
             result = inputs;
@@ -98,7 +96,7 @@ public class NeuronTest {
         final double dotProduct = 2525.0;
         final double expected = 12345.0;
 
-        new Expectations(neuron) {{
+        new Expectations() {{
             invoke(neuron, "dotProductWithWeights", inputs);
             times = 1;
             result = dotProduct;
@@ -196,7 +194,7 @@ public class NeuronTest {
 
         setField(neuron, "inputWeights", localWeights);
 
-        new Expectations(Activation.class, neuron) {{
+        new Expectations(Activation.class) {{
             Activation.random();
             times = 1;
             result = Activation.TAN_H;

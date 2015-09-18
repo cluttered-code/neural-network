@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.clutteredcode.ann;
+package com.clutteredcode.ann.neuron;
 
 import com.clutteredcode.ann.activation.Activation;
 
@@ -24,7 +24,7 @@ import java.util.Collections;
  * They only accept a single input and output input value unchanged.
  *
  * @author David Clutter
- * @see com.clutteredcode.ann.feedforward.InputLayer
+ * @see com.clutteredcode.ann.network.feedforward.InputLayer
  * @since 1.0.0
  */
 public class InputNeuron extends Neuron {

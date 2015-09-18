@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.clutteredcode.ann;
+package com.clutteredcode.ann.neuron;
 
 import com.clutteredcode.ann.activation.Activation;
+import com.clutteredcode.ann.neuron.InputNeuron;
+import com.clutteredcode.ann.neuron.Neuron;
 import mockit.Tested;
 import mockit.integration.junit4.JMockit;
 import org.junit.Test;

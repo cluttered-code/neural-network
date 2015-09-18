@@ -15,12 +15,12 @@
  */
 package integration;
 
-import com.clutteredcode.ann.InputNeuron;
-import com.clutteredcode.ann.Neuron;
+import com.clutteredcode.ann.neuron.InputNeuron;
+import com.clutteredcode.ann.neuron.Neuron;
 import com.clutteredcode.ann.activation.Activation;
-import com.clutteredcode.ann.feedforward.InputLayer;
-import com.clutteredcode.ann.feedforward.Layer;
-import com.clutteredcode.ann.feedforward.NeuralNetwork;
+import com.clutteredcode.ann.network.feedforward.InputLayer;
+import com.clutteredcode.ann.network.feedforward.Layer;
+import com.clutteredcode.ann.network.feedforward.NeuralNetwork;
 import org.junit.Test;
 
 import java.util.Arrays;

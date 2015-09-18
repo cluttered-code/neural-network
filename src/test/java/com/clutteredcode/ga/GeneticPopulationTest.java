@@ -36,7 +36,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(JMockit.class)
 public class GeneticPopulationTest {
 
-    @Tested
+    @Tested @Mocked
     @SuppressWarnings("unused")
     private GeneticPopulation<GeneticIndividual<List<Double>>, List<Double>> geneticPopulation;
 
@@ -67,7 +67,7 @@ public class GeneticPopulationTest {
     public void testTrainNumberOfGenerations(@Mocked final List<Double> inputs) {
         final int generations = 8;
 
-        new Expectations(geneticPopulation) {{
+        new Expectations() {{
             invoke(geneticPopulation, "trainGeneration", inputs);
             times = generations;
         }};
@@ -84,7 +84,7 @@ public class GeneticPopulationTest {
         final double moreThanGoal = goal + 1;
         setField(geneticPopulation, "rankings", rankings);
 
-        new Expectations(geneticPopulation) {{
+        new Expectations() {{
             rankings.get(0);
             times = 2;
             result = individual;
@@ -99,7 +99,7 @@ public class GeneticPopulationTest {
 
     @Test
     public void testTrainGeneration(@Mocked final List<Double> inputs) {
-        new Expectations(geneticPopulation) {{
+        new Expectations() {{
             invoke(geneticPopulation, "trainAndRankAllIndividuals", inputs);
             times = 1;
             invoke(geneticPopulation, "crossoverGeneration");
@@ -118,7 +118,7 @@ public class GeneticPopulationTest {
         final List<GeneticIndividual> overrideGeneration = Arrays.asList(individual, individual, individual);
         setField(geneticPopulation, "generation", overrideGeneration);
 
-        new Expectations(geneticPopulation) {{
+        new Expectations() {{
             new PriorityQueue<>(population);
             times = 1;
             result = rankingsHeap;
@@ -162,7 +162,7 @@ public class GeneticPopulationTest {
         final double totalFitness = 500.0;
         setField(geneticPopulation, "generation", generation);
 
-        new Expectations(geneticPopulation) {{
+        new Expectations() {{
             generation.subList(0, elites);
             result = generation;
             List<GeneticIndividual> nextGeneration = new LinkedList<>(generation);
@@ -201,7 +201,7 @@ public class GeneticPopulationTest {
 
         final double totalFitness = Math.PI;
 
-        new Expectations(geneticPopulation) {{
+        new Expectations() {{
             invoke(geneticPopulation, "selectIndividualUsingFitnessProportion", totalFitness);
             result = individual;
             individual.crossover(individual);
@@ -221,7 +221,7 @@ public class GeneticPopulationTest {
         final List<GeneticIndividual> rankings = Arrays.asList(individual1, individual2, individual3);
         setField(geneticPopulation, "rankings", rankings);
 
-        new Expectations(geneticPopulation, Math.class) {{
+        new Expectations(Math.class) {{
             Math.random();
             result = 0.25;
             invoke(geneticPopulation, "fitnessOffset");
@@ -242,7 +242,7 @@ public class GeneticPopulationTest {
         final List<GeneticIndividual> rankings = Collections.emptyList();
         setField(geneticPopulation, "rankings", rankings);
 
-        new Expectations(geneticPopulation) {{
+        new Expectations() {{
             invoke(geneticPopulation, "fitnessOffset");
         }};
 
