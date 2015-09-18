@@ -18,6 +18,7 @@ package com.clutteredcode.ann.activation;
 /**
  * @author David Clutter
  */
+@FunctionalInterface
 public interface ActivationFunction {
 
     double evaluate(final double input);
