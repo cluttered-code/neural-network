@@ -17,6 +17,7 @@ package com.clutteredcode.ann.neuron;
 
 import com.clutteredcode.ann.activation.Activation;
 import com.clutteredcode.ga.GeneticElement;
+import com.google.gson.Gson;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -57,14 +58,20 @@ import java.util.stream.IntStream;
  */
 public class Neuron implements GeneticElement<Neuron> {
 
+    private static final Gson GSON = new Gson();
+
     public static final int MINIMUM_BOUND = -100;
     public static final int MAXIMUM_BOUND = 100;
 
-    private final Random random;
+    private final transient Random random;
 
-    private final Activation activation;
-    private final double bias;
-    private final List<Double> inputWeights;
+    private Activation activation;
+    private double bias;
+    private List<Double> inputWeights;
+
+    private Neuron() {
+        random = new Random();
+    }
 
     /**
      * Construct a new {@code Neuron} object with the specified {@code Activation}.
@@ -75,8 +82,8 @@ public class Neuron implements GeneticElement<Neuron> {
      * @param numInputs  The number of random input weights to be generated.
      */
     public Neuron(final Activation activation, final int numInputs) {
+        this();
         this.activation = activation;
-        random = new Random();
         bias = randomBoundedDouble();
         inputWeights = IntStream.range(0, numInputs)
                 .parallel()
@@ -97,6 +104,26 @@ public class Neuron implements GeneticElement<Neuron> {
         this.bias = bias;
         this.inputWeights = inputWeights;
         random = new Random();
+    }
+
+    /**
+     * Create and return a new {@code Neuron} from the specified json.
+     *
+     * @param json The json used to construct a {@code Neuron}.
+     *
+     * @return The {@code Neuron} that was created.
+     */
+    public static Neuron fromJson(final String json) {
+        return GSON.fromJson(json, Neuron.class);
+    }
+
+    /**
+     * Return the json representation of this {@code Neuron}.
+     *
+     * @return The json representation of this {@code Neuron}.
+     */
+    public String toJson() {
+        return GSON.toJson(this);
     }
 
     private double randomBoundedDouble() {
