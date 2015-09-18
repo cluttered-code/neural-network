@@ -19,7 +19,8 @@ import mockit.Mock;
 import mockit.MockUp;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
+
 
 /**
  * @author David Clutter

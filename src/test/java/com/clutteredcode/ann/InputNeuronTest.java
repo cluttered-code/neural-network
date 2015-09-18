@@ -24,8 +24,8 @@ import org.junit.runner.RunWith;
 import java.util.Collections;
 import java.util.List;
 
-import static junit.framework.TestCase.assertEquals;
 import static mockit.Deencapsulation.getField;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author David Clutter
@@ -44,7 +44,7 @@ public class InputNeuronTest {
         final List<Double> inputWeights = getField(inputNeuron, "inputWeights");
 
         assertEquals(Activation.LINEAR, activation);
-        assertEquals(0.0, bias);
+        assertEquals(0.0, bias, 0.0);
         assertEquals(Collections.singletonList(1.0), inputWeights);
     }
 

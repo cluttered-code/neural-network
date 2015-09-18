@@ -17,7 +17,6 @@ package com.clutteredcode.ann.feedforward;
 
 import com.clutteredcode.ann.InputNeuron;
 import com.clutteredcode.ann.Neuron;
-import junit.framework.Assert;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
@@ -28,9 +27,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.fail;
 import static mockit.Deencapsulation.setField;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author David Clutter

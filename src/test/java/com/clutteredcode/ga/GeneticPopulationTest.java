@@ -25,8 +25,10 @@ import org.junit.runner.RunWith;
 
 import java.util.*;
 
-import static junit.framework.TestCase.*;
 import static mockit.Deencapsulation.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author David Clutter
@@ -36,7 +38,7 @@ public class GeneticPopulationTest {
 
     @Tested
     @SuppressWarnings("unused")
-    private GeneticPopulation geneticPopulation;
+    private GeneticPopulation<GeneticIndividual<List<Double>>, List<Double>> geneticPopulation;
 
     @Injectable
     @SuppressWarnings("unused")
@@ -58,7 +60,7 @@ public class GeneticPopulationTest {
 
         assertEquals(population, obtainedPopulation);
         assertEquals(elites, obtainedElites);
-        assertEquals(mutationRate, obtainedMutationRate);
+        assertEquals(mutationRate, obtainedMutationRate, 0.0);
     }
 
     @Test
@@ -111,7 +113,7 @@ public class GeneticPopulationTest {
 
     @Test
     public void testTrainAndRankAllIndividuals(@Mocked final List<Double> inputs,
-                                               @Mocked final GeneticIndividual individual,
+                                               @Mocked final GeneticIndividual<List<Double>> individual,
                                                @Mocked final PriorityQueue<GeneticIndividual> rankingsHeap) {
         final List<GeneticIndividual> overrideGeneration = Arrays.asList(individual, individual, individual);
         setField(geneticPopulation, "generation", overrideGeneration);
@@ -189,7 +191,7 @@ public class GeneticPopulationTest {
 
         final double totalFitness = invoke(geneticPopulation, "adjustedTotalFitness");
 
-        assertEquals(12.0, totalFitness);
+        assertEquals(12.0, totalFitness, 0.0);
     }
 
     @Test
@@ -214,13 +216,12 @@ public class GeneticPopulationTest {
     @Test
     public void testSelectIndividualUsingFitnessProportion(@Mocked final GeneticIndividual individual1,
                                                            @Mocked final GeneticIndividual individual2,
-                                                           @Mocked final GeneticIndividual individual3,
-                                                           @Mocked("random") final Math unused) {
+                                                           @Mocked final GeneticIndividual individual3) {
         final double totalFitness = 10;
         final List<GeneticIndividual> rankings = Arrays.asList(individual1, individual2, individual3);
         setField(geneticPopulation, "rankings", rankings);
 
-        new Expectations(geneticPopulation) {{
+        new Expectations(geneticPopulation, Math.class) {{
             Math.random();
             result = 0.25;
             invoke(geneticPopulation, "fitnessOffset");
@@ -255,7 +256,7 @@ public class GeneticPopulationTest {
         final List<GeneticIndividual> generation = Arrays.asList(individual, individual, individual);
         setField(geneticPopulation, "generation", generation);
 
-        new Expectations(LinkedList.class) {{
+        new Expectations() {{
             individual.mutate(mutationRate);
             times = generation.size() - 1;
             result = individual;

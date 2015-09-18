@@ -26,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.Assert.assertNotSame;
-import static junit.framework.TestCase.assertEquals;
 import static mockit.Deencapsulation.newInstance;
 import static mockit.Deencapsulation.setField;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * @author David Clutter

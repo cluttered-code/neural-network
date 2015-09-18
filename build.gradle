@@ -32,6 +32,12 @@ project.ext.versions = [
         jacoco: '0.7.2.201409121644'
 ]
 
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
+}
+
 jacoco {
     toolVersion = versions.jacoco
 }
@@ -41,9 +47,10 @@ repositories {
 }
 
 dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.10'
+    compile 'org.slf4j:slf4j-api:1.7.12'
 
-    testCompile 'org.jmockit:jmockit:1.15'
+    testCompile 'org.slf4j:slf4j-simple:1.7.12'
+    testCompile 'org.jmockit:jmockit:1.19'
     testCompile 'junit:junit:4.12'
 }
 

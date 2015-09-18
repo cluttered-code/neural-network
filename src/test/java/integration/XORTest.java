@@ -26,7 +26,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author David Clutter
@@ -63,9 +63,9 @@ public class XORTest {
         final double r4 = neuralNetwork.fire(Arrays.asList(1.0, 1.0)).getLast().get(0); // 0.0000000000000936
 
         // Validations
-        assertEquals(0, Math.round(r1));
-        assertEquals(1, Math.round(r2));
-        assertEquals(1, Math.round(r3));
-        assertEquals(0, Math.round(r4));
+        assertEquals(0.0, r1, 0.000001);
+        assertEquals(1.0, r2, 0.000001);
+        assertEquals(1.0, r3, 0.000001);
+        assertEquals(0.0, r4, 0.000001);
     }
 }

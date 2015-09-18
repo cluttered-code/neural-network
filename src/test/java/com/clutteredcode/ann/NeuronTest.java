@@ -29,8 +29,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static junit.framework.TestCase.*;
 import static mockit.Deencapsulation.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * @author David Clutter
@@ -62,7 +64,7 @@ public class NeuronTest {
 
         assertNotNull(neuron);
         assertEquals(actualActivation, actualActivation);
-        assertEquals(bias, actualBias);
+        assertEquals(bias, actualBias, 0.0);
         assertEquals(inputWeights, actualWeights);
     }
 
@@ -107,7 +109,7 @@ public class NeuronTest {
 
         final double actual = neuron.fire(inputs);
 
-        assertEquals(expected, actual);
+        assertEquals(expected, actual, 0.0);
     }
 
     @Test
@@ -120,7 +122,7 @@ public class NeuronTest {
 
         final double result = invoke(neuron, "dotProductWithWeights", inputs);
 
-        assertEquals(expected, result);
+        assertEquals(expected, result, 0.0);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -144,7 +146,7 @@ public class NeuronTest {
         }};
 
         final double actual = invoke(neuron, "randomBoundedDouble");
-        assertEquals((double) Neuron.MINIMUM_BOUND, actual);
+        assertEquals((double) Neuron.MINIMUM_BOUND, actual, 0.0);
     }
 
     @Test
@@ -158,7 +160,7 @@ public class NeuronTest {
         }};
 
         final double actual = invoke(neuron, "randomBoundedDouble");
-        assertEquals((double) Neuron.MAXIMUM_BOUND, actual);
+        assertEquals((double) Neuron.MAXIMUM_BOUND, actual, 0.0);
     }
 
     @Test
@@ -180,7 +182,7 @@ public class NeuronTest {
 
         final double expectedBias = getField(neuron, "bias");
         final double actualBias = getField(mutatedNeuron, "bias");
-        assertEquals(expectedBias, actualBias);
+        assertEquals(expectedBias, actualBias, 0.0);
 
         final List<Double> expectedWeights = getField(neuron, "inputWeights");
         final List<Double> actualWeights = getField(mutatedNeuron, "inputWeights");
@@ -239,7 +241,7 @@ public class NeuronTest {
         final Neuron crossoverNeuron = neuron.crossover(mate);
 
         assert (mateActivation == getField(crossoverNeuron, "activation"));
-        assertEquals(bias, getField(crossoverNeuron, "bias"));
+        assertEquals(bias, getField(crossoverNeuron, "bias"), 0.0);
         assertEquals(mateWeights.get(0), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(0));
         assertEquals(weights.get(1), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(1));
         assertEquals(mateWeights.get(2), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(2));
@@ -266,7 +268,7 @@ public class NeuronTest {
         final Neuron crossoverNeuron = neuron.crossover(mate);
 
         assert (activation == getField(crossoverNeuron, "activation"));
-        assertEquals(mateBias, getField(crossoverNeuron, "bias"));
+        assertEquals(mateBias, getField(crossoverNeuron, "bias"), 0.0);
         assertEquals(weights.get(0), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(0));
         assertEquals(mateWeights.get(1), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(1));
         assertEquals(weights.get(2), ((List<Double>) getField(crossoverNeuron, "inputWeights")).get(2));
