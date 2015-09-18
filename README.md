@@ -16,6 +16,8 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/54e42c2ed1ec577c9700028b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54e42c2ed1ec577c9700028b)
 
 
+Run Tests with code coverage: `./gradlew clean cleanTest jacocoRootReport`
+
 Include in **gradle** project:
 ```
 repositories {
@@ -45,4 +47,6 @@ Include in **maven** project:
 </dependencies>
 ```
 
-Run Tests with code coverage: `./gradlew clean cleanTest jacocoRootReport`
+Code Example:
+
+[XOR Network](src/test/integration/XORTest.java)
