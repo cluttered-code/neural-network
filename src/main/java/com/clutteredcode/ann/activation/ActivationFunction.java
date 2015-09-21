@@ -20,6 +20,5 @@ package com.clutteredcode.ann.activation;
  */
 @FunctionalInterface
 public interface ActivationFunction {
-
     double evaluate(final double input);
 }
