@@ -1,4 +1,4 @@
-package com.cluttered.code.activation;
+package com.clutteredcode.activation;
 
 /**
  * @author david.clutter@ca.com
