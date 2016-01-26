@@ -1,4 +1,4 @@
-package com.clutteredcode.activation;
+package com.clutteredcode.ann.activation;
 
 import mockit.Expectations;
 import mockit.Mocked;

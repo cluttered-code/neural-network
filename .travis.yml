@@ -5,5 +5,8 @@ jdk:
 before_script:
   - pip install --user codecov
 
+script:
+  - mvn test verify -B
+
 after_success:
   - codecov
