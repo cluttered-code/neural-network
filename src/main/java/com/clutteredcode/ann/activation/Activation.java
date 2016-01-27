@@ -1,7 +1,7 @@
 package com.clutteredcode.ann.activation;
 
 /**
- * @author david.clutter@ca.com
+ * @author cluttered.code@gmail.com
  */
 public enum Activation implements ActivationFunction {
     LINEAR(input -> input),
